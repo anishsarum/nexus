@@ -1,0 +1,15 @@
+
+[workspace]
+channels = ["conda-forge"]
+name = "trading-python-backend"
+platforms = ["osx-64", "osx-arm64", "linux-64"]
+version = "0.0.1"
+description = "Python backend for trading platform"
+
+[dependencies]
+yfinance = "*"
+ta = "*"
+pandas = "*"
+matplotlib = "*"
+fastapi = ">=0.116.1,<0.117"
+uvicorn = ">=0.35.0,<0.36"
