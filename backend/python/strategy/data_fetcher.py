@@ -11,6 +11,9 @@ class YFinanceDataProvider(DataProvider):
             df = yf.download(symbol, start=start, end=end, interval=interval, **kwargs)
             if df is None or df.empty:
                 return pd.DataFrame([{"Date": "N/A", "Close": 0, "Error": "No data or rate limited"}])
+            cols_to_drop = [col for col in df.columns if any(isinstance(x, (list, dict)) for x in df[col])]
+            if cols_to_drop:
+                df = df.drop(columns=cols_to_drop)
             return df
         except Exception as e:
             print(f"Error fetching data for {symbol}: {e}")
