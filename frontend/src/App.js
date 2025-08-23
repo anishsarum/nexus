@@ -7,6 +7,7 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showJson, setShowJson] = useState(false);
 
   const fetchStockData = async () => {
     setLoading(true);
@@ -55,7 +56,12 @@ function App() {
               <Line type="monotone" dataKey="close" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
-          <pre style={{ background: '#f4f4f4', padding: '1rem' }}>{JSON.stringify(data, null, 2)}</pre>
+          <button onClick={() => setShowJson(v => !v)} style={{ margin: '1rem 0', padding: '0.5rem' }}>
+            {showJson ? 'Hide Raw Data' : 'Show Raw Data'}
+          </button>
+          {showJson && (
+            <pre style={{ background: '#f4f4f4', padding: '1rem' }}>{JSON.stringify(data, null, 2)}</pre>
+          )}
         </div>
       )}
       {data && data.error && (
