@@ -16,10 +16,14 @@ services:
       - ./backend/python:/app
     depends_on:
       - mongo
+      - redis
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
   mongo:
@@ -28,5 +32,10 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
 volumes:
   mongo-data:
