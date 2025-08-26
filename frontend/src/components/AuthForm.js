@@ -13,7 +13,7 @@ export default function AuthForm({ mode = 'login', onAuth }) {
     setError(null);
     const payload = isSignup ? { username, email, password } : { username, password };
     try {
-    const res = await fetch(`http://localhost:5001/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
+    const res = await fetch(`/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

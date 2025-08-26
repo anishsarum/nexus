@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button, Box } from '@mui/material';
+import AddToWatchlistButton from './AddToWatchlistButton';
 
 export function PriceCard({ price }) {
   if (!price) return null;
@@ -19,12 +20,15 @@ export function PriceCard({ price }) {
   );
 }
 
-export function InfoCard({ info, symbol }) {
+export function InfoCard({ info, symbol, token, onAdded }) {
   if (!info) return null;
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
-        <Typography variant="h6">{info.shortName || symbol.toUpperCase()}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="h6">{info.shortName || symbol.toUpperCase()}</Typography>
+          <AddToWatchlistButton token={token} symbol={symbol} name={info.shortName || symbol} onAdded={onAdded} />
+        </Box>
         <Typography variant="body2">Sector: {info.sector || 'N/A'}</Typography>
         <Typography variant="body2">Industry: {info.industry || 'N/A'}</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{info.summary}</Typography>
@@ -35,7 +39,7 @@ export function InfoCard({ info, symbol }) {
 
 export function HistoryChart({ history, symbol, showJson, setShowJson }) {
   if (!history || !Array.isArray(history) || history.length === 0) return null;
-  const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } = require('recharts');
+  const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Label } = require('recharts');
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -46,9 +50,14 @@ export function HistoryChart({ history, symbol, showJson, setShowJson }) {
               date: item["('Date', '')"],
               close: item[`('Close', '${symbol}')`]
             }))}
+            margin={{ top: 10, right: 50, left: 0, bottom: 15 }}
           >
-            <XAxis dataKey="date" tickFormatter={d => d && d.slice(0, 10)} />
-            <YAxis />
+            <XAxis dataKey="date" tickFormatter={d => d && d.slice(0, 10)}>
+              <Label value="Date" position="insideBottom" offset={-10} />
+            </XAxis>
+            <YAxis>
+              <Label value="Price" angle={-90} position="insideLeft" offset={10} />
+            </YAxis>
             <Tooltip />
             <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
             <Line type="monotone" dataKey="close" stroke="#8884d8" />
