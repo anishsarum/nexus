@@ -44,6 +44,9 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
       });
   }, []);
 
+  // State for input value to force uppercase
+  const [inputValue, setInputValue] = useState(symbol || "");
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4, fontFamily: 'sans-serif', flex: 1 }}>
@@ -56,8 +59,17 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
             freeSolo
             options={tickerList}
             value={symbol}
+            inputValue={inputValue}
             loading={tickerLoading}
-            onInputChange={(e, newValue) => onSymbolChange && onSymbolChange(newValue)}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue.toUpperCase());
+            }}
+            onChange={(event, newValue) => {
+              if (newValue && onSymbolChange) {
+                onSymbolChange(newValue);
+                setInputValue(newValue);
+              }
+            }}
             renderInput={(params) => (
               <TextField {...params} label="Stock Symbol" placeholder="e.g. AAPL" size="small" sx={{ flex: 2 }} />
             )}
