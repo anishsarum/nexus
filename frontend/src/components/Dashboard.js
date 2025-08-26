@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
 import WatchlistSidebar from './WatchlistSidebar';
-import { Box, Button, TextField, Typography, Alert, Stack } from '@mui/material';
+import { Box, Button, TextField, Typography, Alert, Stack, Autocomplete } from '@mui/material';
 import useStockData from '../hooks/useStockData';
+
 
 export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh, onSymbolChange }) {
   const today = new Date().toISOString().slice(0, 10);
@@ -20,21 +21,46 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
   // Use custom hook for all stock data
   const { price, info, history, loading, error } = useStockData({ symbol, token, startDate, endDate });
 
+  // Fetch ticker list from backend API
+  const [tickerList, setTickerList] = useState([]);
+  const [tickerLoading, setTickerLoading] = useState(true);
+  const [tickerError, setTickerError] = useState(null);
+
+  React.useEffect(() => {
+    setTickerLoading(true);
+    fetch('http://localhost:8000/api/tickers')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setTickerList(data.map(t => t.symbol));
+        } else {
+          setTickerError('Failed to load ticker list');
+        }
+        setTickerLoading(false);
+      })
+      .catch(err => {
+        setTickerError('Failed to load ticker list');
+        setTickerLoading(false);
+      });
+  }, []);
+
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Sidebar is now handled by SidebarLayout */}
       <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4, fontFamily: 'sans-serif', flex: 1 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
           <Typography variant="h4">Market Dashboard</Typography>
           <Button onClick={onLogout} variant="outlined" color="secondary">Logout</Button>
         </Stack>
         <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
-          <TextField
-            label="Stock Symbol"
+          <Autocomplete
+            freeSolo
+            options={tickerList}
             value={symbol}
-            onChange={e => onSymbolChange && onSymbolChange(e.target.value)}
-            placeholder="e.g. AAPL"
-            size="small"
+            loading={tickerLoading}
+            onInputChange={(e, newValue) => onSymbolChange && onSymbolChange(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Stock Symbol" placeholder="e.g. AAPL" size="small" sx={{ flex: 2 }} />
+            )}
             sx={{ flex: 2 }}
           />
           <TextField
@@ -54,6 +80,7 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
             InputLabelProps={{ shrink: true }}
           />
         </Box>
+        {tickerError && <Alert severity="error">{tickerError}</Alert>}
         {loading && <Typography>Loading...</Typography>}
         {error && error.length > 0 && (
           <Alert severity="error" sx={{ mb: 2 }}>
@@ -69,7 +96,6 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
           token={token}
           onAdded={onWatchlistRefresh}
         />
-        {/* Buy/Sell Card */}
         {symbol && (
           <TradeForm 
             symbol={symbol} 
