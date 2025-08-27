@@ -1,8 +1,62 @@
+
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
 import WatchlistSidebar from './WatchlistSidebar';
 import { Box, Button, TextField, Typography, Alert, Stack, Autocomplete } from '@mui/material';
 import useStockData from '../hooks/useStockData';
+
+// Ticker search bar subcomponent
+function TickerSearchBar({ tickerList, tickerLoading, tickerError, symbol, inputValue, setInputValue, onSymbolChange }) {
+  return (
+    <>
+      <Autocomplete
+        freeSolo
+        options={tickerList}
+        value={symbol}
+        inputValue={inputValue}
+        loading={tickerLoading}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue.toUpperCase());
+        }}
+        onChange={(event, newValue) => {
+          if (newValue && onSymbolChange) {
+            onSymbolChange(newValue);
+            setInputValue(newValue);
+          }
+        }}
+        renderInput={(params) => (
+          <TextField {...params} label="Stock Symbol" placeholder="e.g. AAPL" size="small" sx={{ flex: 2 }} />
+        )}
+        sx={{ flex: 2 }}
+      />
+      {tickerError && <Alert severity="error">{tickerError}</Alert>}
+    </>
+  );
+}
+
+// Date range picker subcomponent
+function DateRangePicker({ startDate, endDate, setStartDate, setEndDate }) {
+  return (
+    <>
+      <TextField
+        label="Start Date"
+        type="date"
+        value={startDate}
+        onChange={e => setStartDate(e.target.value)}
+        size="small"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        label="End Date"
+        type="date"
+        value={endDate}
+        onChange={e => setEndDate(e.target.value)}
+        size="small"
+        InputLabelProps={{ shrink: true }}
+      />
+    </>
+  );
+}
 
 
 export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh, onSymbolChange }) {
@@ -55,44 +109,22 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
           <Button onClick={onLogout} variant="outlined" color="secondary">Logout</Button>
         </Stack>
         <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
-          <Autocomplete
-            freeSolo
-            options={tickerList}
-            value={symbol}
+          <TickerSearchBar
+            tickerList={tickerList}
+            tickerLoading={tickerLoading}
+            tickerError={tickerError}
+            symbol={symbol}
             inputValue={inputValue}
-            loading={tickerLoading}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue.toUpperCase());
-            }}
-            onChange={(event, newValue) => {
-              if (newValue && onSymbolChange) {
-                onSymbolChange(newValue);
-                setInputValue(newValue);
-              }
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Stock Symbol" placeholder="e.g. AAPL" size="small" sx={{ flex: 2 }} />
-            )}
-            sx={{ flex: 2 }}
+            setInputValue={setInputValue}
+            onSymbolChange={onSymbolChange}
           />
-          <TextField
-            label="Start Date"
-            type="date"
-            value={startDate}
-            onChange={e => setStartDate(e.target.value)}
-            size="small"
-            InputLabelProps={{ shrink: true }}
-          />
-          <TextField
-            label="End Date"
-            type="date"
-            value={endDate}
-            onChange={e => setEndDate(e.target.value)}
-            size="small"
-            InputLabelProps={{ shrink: true }}
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
           />
         </Box>
-        {tickerError && <Alert severity="error">{tickerError}</Alert>}
         {loading && <Typography>Loading...</Typography>}
         {error && error.length > 0 && (
           <Alert severity="error" sx={{ mb: 2 }}>
