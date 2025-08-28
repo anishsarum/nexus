@@ -52,6 +52,7 @@ This ignores the override file and uses only `docker-compose.yml`.
 - Frontend: [http://localhost:3000](http://localhost:3000)
 - Backend: [http://localhost:5001](http://localhost:5001)
 - Python API: [http://localhost:8000](http://localhost:8000)
+- Production Website: [https://trading.anishsarum.dev](https://trading.anishsarum.dev)
 
 ### Environment Variables
 
@@ -59,6 +60,13 @@ Use `.env.production` and `.env.development` files in each service directory for
 
 **Note:** The override file is only used for development. For production, use only `docker-compose.yml` and your proxy config.
 
+
+## Security
+
+- Passwords are securely hashed using bcrypt before storage; plain text passwords are never saved.
+- User authentication is handled via JWT tokens for stateless and secure sessions.
+- Sensitive configuration (e.g., secrets, API keys) is managed through environment variables and never hardcoded.
+- All source code is public for transparency and auditability.
 
 ## Next Steps
 
