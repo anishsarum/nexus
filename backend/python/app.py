@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from routes.tickers import router as tickers_router
 from routes.stock import router as stock_router
@@ -8,9 +9,11 @@ from routes.portfolio import router as portfolio_router
 
 
 app = FastAPI()
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://trading.anishsarum.dev").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://trading.anishsarum.dev"],  # Restrict in production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

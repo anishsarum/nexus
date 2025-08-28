@@ -7,6 +7,7 @@ export default function useStockData({ symbol, token, startDate, endDate }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState([]);
 
+
   useEffect(() => {
     if (!symbol) return;
     setLoading(true);
@@ -15,9 +16,10 @@ export default function useStockData({ symbol, token, startDate, endDate }) {
     setInfo(null);
     setHistory(null);
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
-  const pricePromise = fetch(`/pyapi/api/v1/stock/${symbol}/price`, { headers }).then(r => r.json());
-  const infoPromise = fetch(`/pyapi/api/v1/stock/${symbol}/info`, { headers }).then(r => r.json());
-  let historyUrl = `/pyapi/api/v1/stock/${symbol}/history`;
+    const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
+    const pricePromise = fetch(`${pythonApiUrl}/api/v1/stock/${symbol}/price`, { headers }).then(r => r.json());
+    const infoPromise = fetch(`${pythonApiUrl}/api/v1/stock/${symbol}/info`, { headers }).then(r => r.json());
+    let historyUrl = `${pythonApiUrl}/api/v1/stock/${symbol}/history`;
     const params = [];
     if (startDate) params.push(`start=${startDate}`);
     if (endDate) params.push(`end=${endDate}`);
