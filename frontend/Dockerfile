@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ENV REACT_APP_PYTHON_API_URL=http://python-backend:8000
+ENV REACT_APP_PYTHON_API_URL=/pyapi
 RUN npm run build
 
 FROM node:18-alpine

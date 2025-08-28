@@ -79,7 +79,7 @@ const Portfolio = () => {
         const symbols = data.holdings.map(h => h.symbol).join(",");
         const quantities = data.holdings.map(h => h.quantity).join(",");
         const avgPrices = data.holdings.map(h => h.avgPrice).join(",");
-        const valueRes = await axios.get("http://localhost:8000/api/portfolio/value", {
+        const valueRes = await axios.get("/pyapi/api/portfolio/value", {
           params: { symbols, quantities, avgPrices }
         });
         setPortfolio(prev => ({ ...prev, valueData: valueRes.data }));

@@ -10,7 +10,7 @@ from routes.portfolio import router as portfolio_router
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development; restrict in production
+    allow_origins=["https://trading.anishsarum.dev"],  # Restrict in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

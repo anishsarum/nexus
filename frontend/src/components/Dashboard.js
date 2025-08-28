@@ -82,7 +82,7 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
 
   React.useEffect(() => {
     setTickerLoading(true);
-    const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || 'http://localhost:8000';
+  const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
     fetch(`${pythonApiUrl}/api/tickers`)
       .then(res => res.json())
       .then(data => {
