@@ -36,7 +36,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({
     if (!token) return;
     setLoading(true);
     axios
-      .get(`/api/watchlist`, {
+      .get(`/api/v1/watchlist`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -48,7 +48,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({
 
   const handleDelete = (symbol: string) => {
     axios
-      .delete(`/api/watchlist/${symbol}`, {
+      .delete(`/api/v1/watchlist/${symbol}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setTickers(res.data));

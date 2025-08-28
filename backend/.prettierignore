@@ -7,5 +7,6 @@ python/
 **/envs/**
 **/build/**
 **/public/**
+dist/
 *.py
 *.pyc

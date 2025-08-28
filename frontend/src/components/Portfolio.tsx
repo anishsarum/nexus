@@ -124,7 +124,7 @@ const Portfolio: React.FC = () => {
   const fetchPortfolio = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/portfolio`, {
+      const res = await axios.get(`/api/v1/portfolio`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       const data = res.data;
@@ -156,7 +156,7 @@ const Portfolio: React.FC = () => {
     setSellLoading(true);
     try {
       await axios.post(
-        `/api/portfolio/sell`,
+        `/api/v1/portfolio/sell`,
         {
           symbol: holding.symbol,
           quantity: holding.quantity,

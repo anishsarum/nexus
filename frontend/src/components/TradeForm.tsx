@@ -22,7 +22,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ symbol, token, onTrade, price }) 
     setError('');
     setSuccess('');
     try {
-      const url = `/api/portfolio/${type}`;
+      const url = `/api/v1/portfolio/${type}`;
       const res = await axios.post(
         url,
         { symbol, quantity: Number(quantity), price: Number(price) },

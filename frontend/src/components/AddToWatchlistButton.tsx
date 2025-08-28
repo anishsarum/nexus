@@ -23,7 +23,7 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
     setLoading(true);
     try {
       await axios.post(
-        `/api/watchlist`,
+        `/api/v1/watchlist`,
         { symbol, name },
         {
           headers: { Authorization: `Bearer ${token}` },
