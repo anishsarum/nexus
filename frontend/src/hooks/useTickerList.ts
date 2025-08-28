@@ -8,8 +8,8 @@ export default function useTickerList() {
   useEffect(() => {
     setTickerLoading(true);
     fetch('/pyapi/api/tickers')
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (Array.isArray(data)) {
           setTickerList(data.map((t: any) => t.symbol));
         } else {

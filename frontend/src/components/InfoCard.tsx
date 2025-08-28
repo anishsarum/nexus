@@ -23,11 +23,18 @@ const InfoCard: React.FC<InfoCardProps> = ({ info, symbol, token, onAdded }) => 
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">{info.shortName || symbol.toUpperCase()}</Typography>
-          <AddToWatchlistButton token={token} symbol={symbol} name={info.shortName || symbol} onAdded={onAdded} />
+          <AddToWatchlistButton
+            token={token}
+            symbol={symbol}
+            name={info.shortName || symbol}
+            onAdded={onAdded}
+          />
         </Box>
         <Typography variant="body2">Sector: {info.sector || 'N/A'}</Typography>
         <Typography variant="body2">Industry: {info.industry || 'N/A'}</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{info.summary}</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {info.summary}
+        </Typography>
       </CardContent>
     </Card>
   );

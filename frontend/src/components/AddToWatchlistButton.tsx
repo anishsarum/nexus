@@ -10,16 +10,25 @@ export interface AddToWatchlistButtonProps {
   onAdded?: ((symbol: string) => void) | undefined;
 }
 
-const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({ token, symbol, name, onAdded }) => {
+const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
+  token,
+  symbol,
+  name,
+  onAdded,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
   const handleAdd = async () => {
     setLoading(true);
     try {
-        await axios.post(`/api/watchlist`, { symbol, name }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(
+        `/api/watchlist`,
+        { symbol, name },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setSnackbarOpen(true);
       if (onAdded) onAdded(symbol);
     } catch (err) {

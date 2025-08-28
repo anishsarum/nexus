@@ -8,14 +8,19 @@ interface DateRangePickerProps {
   setEndDate: (date: string) => void;
 }
 
-const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, setStartDate, setEndDate }) => {
+const DateRangePicker: React.FC<DateRangePickerProps> = ({
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+}) => {
   return (
     <>
       <TextField
         label="Start Date"
         type="date"
         value={startDate}
-        onChange={e => setStartDate(e.target.value)}
+        onChange={(e) => setStartDate(e.target.value)}
         size="small"
         InputLabelProps={{ shrink: true }}
       />
@@ -23,7 +28,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, s
         label="End Date"
         type="date"
         value={endDate}
-        onChange={e => setEndDate(e.target.value)}
+        onChange={(e) => setEndDate(e.target.value)}
         size="small"
         InputLabelProps={{ shrink: true }}
       />

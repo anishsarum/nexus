@@ -1,0 +1,11 @@
+python/
+**/python/**
+**/.pixi/**
+**/site-packages/**
+**/lib/**
+**/share/**
+**/envs/**
+**/build/**
+**/public/**
+*.py
+*.pyc

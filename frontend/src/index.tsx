@@ -8,8 +8,8 @@ const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Root element not found');
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
 root.render(
-	<ThemeProvider theme={theme}>
-		<CssBaseline />
-		<App />
-	</ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>
 );

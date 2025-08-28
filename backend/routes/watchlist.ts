@@ -1,46 +1,51 @@
-const express = require('express');
-const router = express.Router();
-const Watchlist = require('../models/Watchlist');
-const auth = require('../middleware/auth');
+import { Router, Request, Response } from 'express';
+import Watchlist from '../models/Watchlist';
+import auth from '../middleware/auth';
+
+const router = Router();
 
 // Add asset to watchlist
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, async (req: Request, res: Response) => {
   try {
     const { symbol, name } = req.body;
+    // @ts-ignore
     let watchlist = await Watchlist.findOne({ user: req.user.id });
     if (!watchlist) {
+      // @ts-ignore
       watchlist = new Watchlist({ user: req.user.id, assets: [] });
     }
     watchlist.assets.push({ symbol, name });
     await watchlist.save();
     res.json(watchlist);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // Get all assets in watchlist
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req: Request, res: Response) => {
   try {
+    // @ts-ignore
     const watchlist = await Watchlist.findOne({ user: req.user.id });
     res.json(watchlist ? watchlist.assets : []);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // Remove asset from watchlist
-router.delete('/:symbol', auth, async (req, res) => {
+router.delete('/:symbol', auth, async (req: Request, res: Response) => {
   try {
     const { symbol } = req.params;
+    // @ts-ignore
     const watchlist = await Watchlist.findOne({ user: req.user.id });
     if (!watchlist) return res.status(404).json({ error: 'Watchlist not found' });
-    watchlist.assets = watchlist.assets.filter(a => a.symbol !== symbol);
+    watchlist.assets = watchlist.assets.filter((a: any) => a.symbol !== symbol);
     await watchlist.save();
     res.json(watchlist.assets);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-module.exports = router;
+export default router;

@@ -8,4 +8,5 @@
 - [ ] Ensure Documentation is Complete
 
 ## Progress
+
 - Project stub created for MERN trading platform with Docker support.

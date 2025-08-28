@@ -13,14 +13,14 @@ export default defineConfig({
     host: true,
     port: 3000,
     open: false,
-      proxy: {
-        '/api': 'http://backend:5001',
-        '/pyapi': {
-          target: 'http://python-backend:8000',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/pyapi/, ''),
-        },
+    proxy: {
+      '/api': 'http://backend:5001',
+      '/pyapi': {
+        target: 'http://python-backend:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/pyapi/, ''),
       },
+    },
   },
   build: {
     outDir: 'build',

@@ -21,7 +21,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
       const res = await fetch(`/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -35,13 +35,26 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ background: '#f8f8ff', p: 3, borderRadius: 2, maxWidth: 350, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5" align="center" gutterBottom>{isSignup ? 'Sign Up' : 'Login'}</Typography>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        background: '#f8f8ff',
+        p: 3,
+        borderRadius: 2,
+        maxWidth: 350,
+        mx: 'auto',
+        mt: 4,
+      }}
+    >
+      <Typography variant="h5" align="center" gutterBottom>
+        {isSignup ? 'Sign Up' : 'Login'}
+      </Typography>
       <TextField
         label="Username"
         variant="outlined"
         value={username}
-        onChange={e => setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
         required
         fullWidth
         sx={{ mb: 2 }}
@@ -52,7 +65,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
           type="email"
           variant="outlined"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
           fullWidth
           sx={{ mb: 2 }}
@@ -63,7 +76,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
         type="password"
         variant="outlined"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         required
         fullWidth
         sx={{ mb: 2 }}
@@ -71,7 +84,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
       <Button type="submit" variant="contained" color="primary" fullWidth sx={{ py: 1.2, mt: 1 }}>
         {isSignup ? 'Sign Up' : 'Login'}
       </Button>
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+      {error && (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          {error}
+        </Alert>
+      )}
     </Box>
   );
 };

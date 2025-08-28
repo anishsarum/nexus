@@ -11,7 +11,15 @@ interface TickerSearchBarProps {
   onSymbolChange: (symbol: string) => void;
 }
 
-const TickerSearchBar: React.FC<TickerSearchBarProps> = ({ tickerList, tickerLoading, tickerError, symbol, inputValue, setInputValue, onSymbolChange }) => {
+const TickerSearchBar: React.FC<TickerSearchBarProps> = ({
+  tickerList,
+  tickerLoading,
+  tickerError,
+  symbol,
+  inputValue,
+  setInputValue,
+  onSymbolChange,
+}) => {
   return (
     <>
       <Autocomplete
@@ -41,8 +49,8 @@ const TickerSearchBar: React.FC<TickerSearchBarProps> = ({ tickerList, tickerLoa
               slotProps={{
                 inputLabel: {
                   shrink: true,
-                  className: ''
-                }
+                  className: '',
+                },
               }}
             />
           );
