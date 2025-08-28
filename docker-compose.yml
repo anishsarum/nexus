@@ -12,7 +12,6 @@ services:
     build: ./backend/python
     ports:
       - "8000:8000"
-  # volumes removed for production; add in dev override if needed
     depends_on:
       - mongo
       - redis
@@ -20,7 +19,6 @@ services:
     build: ./frontend
     ports:
       - "3000:3000"
-  # volumes removed for production; add in dev override if needed
     depends_on:
       - backend
   mongo:
