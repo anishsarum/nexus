@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
 import WatchlistSidebar from './WatchlistSidebar';
-import { Box, Button, TextField, Typography, Alert, Stack, Autocomplete } from '@mui/material';
+import { Box, Button, Typography, Alert, Stack } from '@mui/material';
 import useStockData from '../hooks/useStockData';
+import TickerSearchBar from './TickerSearchBar';
+import DateRangePicker from './DateRangePicker';
+import useTickerList from '../hooks/useTickerList';
 
 // Type definitions for props
 interface DashboardProps {
@@ -20,88 +23,6 @@ env: {
 };
 };
 
-interface TickerSearchBarProps {
-  tickerList: string[];
-  tickerLoading: boolean;
-  tickerError: string | null;
-  symbol: string;
-  inputValue: string;
-  setInputValue: (val: string) => void;
-  onSymbolChange: (symbol: string) => void;
-}
-
-const TickerSearchBar: React.FC<TickerSearchBarProps> = ({ tickerList, tickerLoading, tickerError, symbol, inputValue, setInputValue, onSymbolChange }) => {
-  return (
-    <>
-      <Autocomplete
-        freeSolo
-        options={tickerList}
-        value={symbol}
-        inputValue={inputValue}
-        loading={tickerLoading}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue.toUpperCase());
-        }}
-        onChange={(event, newValue) => {
-          if (newValue && onSymbolChange) {
-            onSymbolChange(newValue);
-            setInputValue(newValue);
-          }
-        }}
-        renderInput={(params) => {
-          const { InputLabelProps, ...rest } = params;
-          return (
-            <TextField
-              {...rest}
-              label="Stock Symbol"
-              placeholder="e.g. AAPL"
-              size="small"
-              sx={{ flex: 2 }}
-              slotProps={{
-                inputLabel: {
-                  shrink: true,
-                  className: ''
-                }
-              }}
-            />
-          );
-        }}
-        sx={{ flex: 2 }}
-      />
-      {tickerError && <Alert severity="error">{tickerError}</Alert>}
-    </>
-  );
-};
-
-interface DateRangePickerProps {
-  startDate: string;
-  endDate: string;
-  setStartDate: (date: string) => void;
-  setEndDate: (date: string) => void;
-}
-
-const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, setStartDate, setEndDate }) => {
-  return (
-    <>
-      <TextField
-        label="Start Date"
-        type="date"
-        value={startDate}
-        onChange={e => setStartDate(e.target.value)}
-        size="small"
-        InputLabelProps={{ shrink: true }}
-      />
-      <TextField
-        label="End Date"
-        type="date"
-        value={endDate}
-        onChange={e => setEndDate(e.target.value)}
-        size="small"
-        InputLabelProps={{ shrink: true }}
-      />
-    </>
-  );
-};
 
 const Dashboard: React.FC<DashboardProps> = ({ token, onLogout, symbol, onWatchlistRefresh, onSymbolChange }) => {
   const today = new Date().toISOString().slice(0, 10);
@@ -119,29 +40,8 @@ const Dashboard: React.FC<DashboardProps> = ({ token, onLogout, symbol, onWatchl
   // Use custom hook for all stock data
   const { price, info, history, loading, error } = useStockData({ symbol, token, startDate, endDate });
 
-  // Fetch ticker list from backend API
-  const [tickerList, setTickerList] = useState<string[]>([]);
-  const [tickerLoading, setTickerLoading] = useState<boolean>(true);
-  const [tickerError, setTickerError] = useState<string | null>(null);
-
-  React.useEffect(() => {
-    setTickerLoading(true);
-    const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
-    fetch(`${pythonApiUrl}/api/tickers`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setTickerList(data.map((t: any) => t.symbol));
-        } else {
-          setTickerError('Failed to load ticker list');
-        }
-        setTickerLoading(false);
-      })
-      .catch(err => {
-        setTickerError('Failed to load ticker list');
-        setTickerLoading(false);
-      });
-  }, []);
+  // Use custom hook for ticker list
+  const { tickerList, tickerLoading, tickerError } = useTickerList();
 
   // State for input value to force uppercase
   const [inputValue, setInputValue] = useState(symbol || "");

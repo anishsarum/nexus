@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Typography, Box, CircularProgress, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
-import { mernApiUrl } from '../config';
 
 interface Holding {
   symbol: string;
@@ -92,7 +91,7 @@ const Portfolio: React.FC = () => {
   const fetchPortfolio = async () => {
     setLoading(true);
     try {
-        const res = await axios.get(`${mernApiUrl}/api/portfolio`, {
+        const res = await axios.get(`/api/portfolio`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       const data = res.data;
@@ -123,8 +122,7 @@ const Portfolio: React.FC = () => {
     setSellSuccess("");
     setSellLoading(true);
     try {
-  // ...existing code...
-  await axios.post(`${mernApiUrl}/api/portfolio/sell`, {
+      await axios.post(`/api/portfolio/sell`, {
         symbol: holding.symbol,
         quantity: holding.quantity,
         price: holding.avgPrice

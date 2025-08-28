@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Box, List, ListItemText, Typography, IconButton, CircularProgress, ListItemButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { mernApiUrl } from '../config';
 
 interface Ticker {
 	symbol: string;
@@ -24,7 +23,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ token, onSelectTick
 	useEffect(() => {
 		if (!token) return;
 		setLoading(true);
-		    axios.get(`${mernApiUrl}/api/watchlist`, {
+		    axios.get(`/api/watchlist`, {
 			headers: { Authorization: `Bearer ${token}` }
 		})
 			.then(res => {
@@ -35,7 +34,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ token, onSelectTick
 	}, [token, refreshKey]);
 
 	const handleDelete = (symbol: string) => {
-		    axios.delete(`${mernApiUrl}/api/watchlist/${symbol}`, {
+		    axios.delete(`/api/watchlist/${symbol}`, {
 			headers: { Authorization: `Bearer ${token}` }
 		})
 			.then(res => setTickers(res.data));

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton, Tooltip, Snackbar } from '@mui/material';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import { mernApiUrl } from '../config';
 import axios from 'axios';
 
 export interface AddToWatchlistButtonProps {
@@ -18,7 +17,7 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({ token, symb
   const handleAdd = async () => {
     setLoading(true);
     try {
-        await axios.post(`${mernApiUrl}/api/watchlist`, { symbol, name }, {
+        await axios.post(`/api/watchlist`, { symbol, name }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSnackbarOpen(true);
