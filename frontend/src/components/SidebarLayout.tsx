@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import { Box, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import WatchlistSidebar from "./WatchlistSidebar";
 import WatchlistNavigate from "./WatchlistNavigate";
 
-const SidebarLayout = ({ children, token, onSelectTicker, refreshKey }) => {
+interface SidebarLayoutProps {
+  children: ReactNode;
+  token: string;
+  onSelectTicker: (symbol: string) => void;
+  refreshKey: number;
+}
+
+const SidebarLayout: React.FC<SidebarLayoutProps> = ({ children, token, onSelectTicker, refreshKey }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -30,3 +36,4 @@ const SidebarLayout = ({ children, token, onSelectTicker, refreshKey }) => {
 };
 
 export default SidebarLayout;
+import type { ReactNode } from 'react';

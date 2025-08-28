@@ -1,12 +1,22 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-export default function PriceCard({ price }) {
+interface Price {
+  price: number | Record<string, number>;
+  date?: string;
+}
+
+interface PriceCardProps {
+  price?: Price | null;
+}
+
+const PriceCard: React.FC<PriceCardProps> = ({ price }) => {
   if (!price) return null;
   let displayPrice = price.price;
   if (displayPrice && typeof displayPrice === 'object') {
-    const keys = Object.keys(displayPrice);
-    displayPrice = keys.length ? displayPrice[keys[0]] : '';
+    const priceObj = displayPrice as Record<string, number>;
+    const keys = Object.keys(priceObj);
+    displayPrice = keys.length && keys[0] !== undefined ? priceObj[keys[0]] ?? 0 : 0;
   }
   return (
     <Card sx={{ mb: 2 }}>
@@ -17,4 +27,6 @@ export default function PriceCard({ price }) {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default PriceCard;

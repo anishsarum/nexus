@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { IconButton, Tooltip, Snackbar } from '@mui/material';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import { mernApiUrl } from '../config';
 import axios from 'axios';
 
-const AddToWatchlistButton = ({ token, symbol, name, onAdded }) => {
-  const [loading, setLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+export interface AddToWatchlistButtonProps {
+  token: string;
+  symbol: string;
+  name: string;
+  onAdded?: ((symbol: string) => void) | undefined;
+}
+
+const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({ token, symbol, name, onAdded }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
   const handleAdd = async () => {
     setLoading(true);
     try {
-      await axios.post('/api/watchlist', { symbol, name }, {
+        await axios.post(`${mernApiUrl}/api/watchlist`, { symbol, name }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSnackbarOpen(true);

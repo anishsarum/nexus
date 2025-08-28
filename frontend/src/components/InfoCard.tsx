@@ -2,7 +2,21 @@ import React from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import AddToWatchlistButton from './AddToWatchlistButton';
 
-export default function InfoCard({ info, symbol, token, onAdded }) {
+interface Info {
+  shortName?: string;
+  sector?: string;
+  industry?: string;
+  summary?: string;
+}
+
+interface InfoCardProps {
+  info: Info | null;
+  symbol: string;
+  token: string;
+  onAdded?: (symbol: string) => void;
+}
+
+const InfoCard: React.FC<InfoCardProps> = ({ info, symbol, token, onAdded }) => {
   if (!info) return null;
   return (
     <Card sx={{ mb: 2 }}>
@@ -17,4 +31,6 @@ export default function InfoCard({ info, symbol, token, onAdded }) {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default InfoCard;

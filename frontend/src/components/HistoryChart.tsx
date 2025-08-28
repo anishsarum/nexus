@@ -1,9 +1,17 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button, Box } from '@mui/material';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Label } from 'recharts';
+import type { FC } from 'react';
 
-export default function HistoryChart({ history, symbol, showJson, setShowJson }) {
+interface HistoryChartProps {
+  history: Array<Record<string, any>>;
+  symbol: string;
+  showJson: boolean;
+  setShowJson: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HistoryChart: FC<HistoryChartProps> = ({ history, symbol, showJson, setShowJson }) => {
   if (!history || !Array.isArray(history) || history.length === 0) return null;
-  const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Label } = require('recharts');
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -16,7 +24,7 @@ export default function HistoryChart({ history, symbol, showJson, setShowJson })
             }))}
             margin={{ top: 10, right: 50, left: 0, bottom: 15 }}
           >
-            <XAxis dataKey="date" tickFormatter={d => d && d.slice(0, 10)}>
+            <XAxis dataKey="date" tickFormatter={(d: string) => d && d.slice(0, 10)}>
               <Label value="Date" position="insideBottom" offset={-10} />
             </XAxis>
             <YAxis>
@@ -38,4 +46,6 @@ export default function HistoryChart({ history, symbol, showJson, setShowJson })
       </CardContent>
     </Card>
   );
-}
+};
+
+export default HistoryChart;

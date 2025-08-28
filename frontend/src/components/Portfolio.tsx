@@ -1,23 +1,41 @@
-
 import React, { useEffect, useState } from "react";
 import { Typography, Box, CircularProgress, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
+import { mernApiUrl } from '../config';
 
-// Portfolio row subcomponent
-function PortfolioRow({ holding, valueData, onSellAll, sellLoading }) {
+interface Holding {
+  symbol: string;
+  quantity: number;
+  avgPrice: number;
+}
+
+interface ValueData {
+  symbol: string;
+  change_pct?: number;
+  value?: number;
+  timestamp?: number | string;
+}
+
+interface PortfolioRowProps {
+  holding: Holding;
+  valueData?: ValueData | undefined;
+  onSellAll: (holding: Holding) => void;
+  sellLoading: boolean;
+}
+
+const PortfolioRow: React.FC<PortfolioRowProps> = ({ holding, valueData, onSellAll, sellLoading }) => {
   const changePct = valueData ? valueData.change_pct : 0;
   const value = valueData ? valueData.value : 0;
-  // Format timestamp
   let priceTime = '';
   let isRecent = false;
   if (valueData && valueData.timestamp) {
-    if (!isNaN(valueData.timestamp)) {
+    if (!isNaN(Number(valueData.timestamp))) {
       const date = new Date(Number(valueData.timestamp) * 1000);
       priceTime = date.toLocaleString();
       isRecent = (Date.now() - date.getTime()) < 30 * 60 * 1000;
     } else {
-      priceTime = valueData.timestamp;
+      priceTime = String(valueData.timestamp);
     }
   }
   return (
@@ -53,40 +71,44 @@ function PortfolioRow({ holding, valueData, onSellAll, sellLoading }) {
       </TableCell>
     </TableRow>
   );
+};
+
+interface PortfolioData {
+  cash?: number;
+  holdings?: Holding[];
+  valueData?: {
+    assets?: ValueData[];
+  };
 }
 
-const Portfolio = () => {
-  const [portfolio, setPortfolio] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [sellError, setSellError] = useState("");
-  const [sellSuccess, setSellSuccess] = useState("");
-  const [sellLoading, setSellLoading] = useState(false);
+const Portfolio: React.FC = () => {
+  const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+  const [sellError, setSellError] = useState<string>("");
+  const [sellSuccess, setSellSuccess] = useState<string>("");
+  const [sellLoading, setSellLoading] = useState<boolean>(false);
 
-
-  // Fetch portfolio holdings and then get profit/loss data from backend
   const fetchPortfolio = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/api/portfolio", {
+        const res = await axios.get(`${mernApiUrl}/api/portfolio`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       const data = res.data;
       setPortfolio(data);
-
-      // If holdings exist, fetch profit/loss from python backend
       if (data.holdings && data.holdings.length > 0) {
-        const symbols = data.holdings.map(h => h.symbol).join(",");
-        const quantities = data.holdings.map(h => h.quantity).join(",");
-        const avgPrices = data.holdings.map(h => h.avgPrice).join(",");
-        const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
+        const symbols = data.holdings.map((h: Holding) => h.symbol).join(",");
+        const quantities = data.holdings.map((h: Holding) => h.quantity).join(",");
+        const avgPrices = data.holdings.map((h: Holding) => h.avgPrice).join(",");
+        const pythonApiUrl = (window as any).REACT_APP_PYTHON_API_URL || '/pyapi';
         const valueRes = await axios.get(`${pythonApiUrl}/api/portfolio/value`, {
           params: { symbols, quantities, avgPrices }
         });
-        setPortfolio(prev => ({ ...prev, valueData: valueRes.data }));
+        setPortfolio(prev => prev ? { ...prev, valueData: valueRes.data } : prev);
       }
       setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.error || "Failed to fetch portfolio");
       setLoading(false);
     }
@@ -96,12 +118,13 @@ const Portfolio = () => {
     fetchPortfolio();
   }, []);
 
-  const handleSellAll = async (holding) => {
+  const handleSellAll = async (holding: Holding) => {
     setSellError("");
     setSellSuccess("");
     setSellLoading(true);
     try {
-      await axios.post("/api/portfolio/sell", {
+  // ...existing code...
+  await axios.post(`${mernApiUrl}/api/portfolio/sell`, {
         symbol: holding.symbol,
         quantity: holding.quantity,
         price: holding.avgPrice
@@ -110,7 +133,7 @@ const Portfolio = () => {
       });
       setSellSuccess(`Sold all ${holding.symbol}`);
       fetchPortfolio();
-    } catch (err) {
+    } catch (err: any) {
       setSellError(err.response?.data?.error || "Failed to sell");
     }
     setSellLoading(false);
@@ -148,8 +171,8 @@ const Portfolio = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {portfolio.holdings.map((holding) => {
-                const valueData = portfolio.valueData?.assets?.find(a => a.symbol === holding.symbol);
+              {portfolio.holdings.map((holding: Holding) => {
+                const valueData = portfolio.valueData?.assets?.find((a: ValueData) => a.symbol === holding.symbol);
                 return (
                   <PortfolioRow
                     key={holding.symbol}

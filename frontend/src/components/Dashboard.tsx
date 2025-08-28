@@ -1,12 +1,36 @@
-
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
 import WatchlistSidebar from './WatchlistSidebar';
 import { Box, Button, TextField, Typography, Alert, Stack, Autocomplete } from '@mui/material';
 import useStockData from '../hooks/useStockData';
 
-// Ticker search bar subcomponent
-function TickerSearchBar({ tickerList, tickerLoading, tickerError, symbol, inputValue, setInputValue, onSymbolChange }) {
+// Type definitions for props
+interface DashboardProps {
+  token: string;
+  onLogout: () => void;
+  symbol: string;
+  onWatchlistRefresh: () => void;
+  onSymbolChange: (symbol: string) => void;
+}
+
+declare const process: {
+env: {
+    REACT_APP_PYTHON_API_URL?: string;
+    [key: string]: any;
+};
+};
+
+interface TickerSearchBarProps {
+  tickerList: string[];
+  tickerLoading: boolean;
+  tickerError: string | null;
+  symbol: string;
+  inputValue: string;
+  setInputValue: (val: string) => void;
+  onSymbolChange: (symbol: string) => void;
+}
+
+const TickerSearchBar: React.FC<TickerSearchBarProps> = ({ tickerList, tickerLoading, tickerError, symbol, inputValue, setInputValue, onSymbolChange }) => {
   return (
     <>
       <Autocomplete
@@ -24,18 +48,39 @@ function TickerSearchBar({ tickerList, tickerLoading, tickerError, symbol, input
             setInputValue(newValue);
           }
         }}
-        renderInput={(params) => (
-          <TextField {...params} label="Stock Symbol" placeholder="e.g. AAPL" size="small" sx={{ flex: 2 }} />
-        )}
+        renderInput={(params) => {
+          const { InputLabelProps, ...rest } = params;
+          return (
+            <TextField
+              {...rest}
+              label="Stock Symbol"
+              placeholder="e.g. AAPL"
+              size="small"
+              sx={{ flex: 2 }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                  className: ''
+                }
+              }}
+            />
+          );
+        }}
         sx={{ flex: 2 }}
       />
       {tickerError && <Alert severity="error">{tickerError}</Alert>}
     </>
   );
+};
+
+interface DateRangePickerProps {
+  startDate: string;
+  endDate: string;
+  setStartDate: (date: string) => void;
+  setEndDate: (date: string) => void;
 }
 
-// Date range picker subcomponent
-function DateRangePicker({ startDate, endDate, setStartDate, setEndDate }) {
+const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, setStartDate, setEndDate }) => {
   return (
     <>
       <TextField
@@ -56,10 +101,9 @@ function DateRangePicker({ startDate, endDate, setStartDate, setEndDate }) {
       />
     </>
   );
-}
+};
 
-
-export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh, onSymbolChange }) {
+const Dashboard: React.FC<DashboardProps> = ({ token, onLogout, symbol, onWatchlistRefresh, onSymbolChange }) => {
   const today = new Date().toISOString().slice(0, 10);
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -76,18 +120,18 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
   const { price, info, history, loading, error } = useStockData({ symbol, token, startDate, endDate });
 
   // Fetch ticker list from backend API
-  const [tickerList, setTickerList] = useState([]);
-  const [tickerLoading, setTickerLoading] = useState(true);
-  const [tickerError, setTickerError] = useState(null);
+  const [tickerList, setTickerList] = useState<string[]>([]);
+  const [tickerLoading, setTickerLoading] = useState<boolean>(true);
+  const [tickerError, setTickerError] = useState<string | null>(null);
 
   React.useEffect(() => {
     setTickerLoading(true);
-  const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
+    const pythonApiUrl = process.env.REACT_APP_PYTHON_API_URL || '/pyapi';
     fetch(`${pythonApiUrl}/api/tickers`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
-          setTickerList(data.map(t => t.symbol));
+          setTickerList(data.map((t: any) => t.symbol));
         } else {
           setTickerError('Failed to load ticker list');
         }
@@ -129,12 +173,12 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
         {loading && <Typography>Loading...</Typography>}
         {error && error.length > 0 && (
           <Alert severity="error" sx={{ mb: 2 }}>
-            {error.map((errMsg, idx) => (
+            {error.map((errMsg: string, idx: number) => (
               <div key={idx}>{errMsg}</div>
             ))}
           </Alert>
         )}
-        <PriceCard price={price} />
+        <PriceCard price={price ? { price: price.price, date: price.date } : null} />
         <InfoCard
           info={info}
           symbol={symbol}
@@ -148,8 +192,10 @@ export default function Dashboard({ token, onLogout, symbol, onWatchlistRefresh,
             price={price && (typeof price.price === 'object' ? Object.values(price.price)[0] : price.price)} 
           />
         )}
-        <HistoryChart history={history} symbol={symbol} showJson={showJson} setShowJson={setShowJson} />
+        <HistoryChart history={history ?? []} symbol={symbol} showJson={showJson} setShowJson={setShowJson} />
       </Box>
     </Box>
   );
-}
+};
+
+export default Dashboard;

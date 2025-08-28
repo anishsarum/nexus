@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Alert } from '@mui/material';
+import { mernApiUrl } from '../config';
 
-export default function AuthForm({ mode = 'login', onAuth }) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+type AuthFormProps = {
+  mode?: 'login' | 'signup';
+  onAuth: (data: any) => void;
+};
+
+const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
   const isSignup = mode === 'signup';
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     const payload = isSignup ? { username, email, password } : { username, password };
     try {
-    const res = await fetch(`/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
+      const res = await fetch(`${mernApiUrl}/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -69,4 +75,6 @@ export default function AuthForm({ mode = 'login', onAuth }) {
       {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
     </Box>
   );
-}
+};
+
+export default AuthForm;
