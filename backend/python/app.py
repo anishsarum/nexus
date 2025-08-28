@@ -9,7 +9,9 @@ from routes.portfolio import router as portfolio_router
 
 
 app = FastAPI()
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://trading.anishsarum.dev").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://trading.anishsarum.dev").split(
+    ","
+)
 
 app.add_middleware(
     CORSMiddleware,

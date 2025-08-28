@@ -1,5 +1,6 @@
 import logging
 
+
 def analyze_sentiment(stock, score=None):
     """
     Simulate sentiment analysis for a given stock.

@@ -3,7 +3,8 @@ import json
 import numpy as np
 import pandas as pd
 
-redis_client = redis.Redis(host='redis', port=6379, db=0)
+redis_client = redis.Redis(host="redis", port=6379, db=0)
+
 
 def to_jsonable(obj):
     if isinstance(obj, pd.DataFrame):
@@ -20,6 +21,7 @@ def to_jsonable(obj):
         return [to_jsonable(v) for v in obj]
     else:
         return obj
+
 
 async def get_or_set_cache(key, fetch_func, expire=300):
     cached = await redis_client.get(key)

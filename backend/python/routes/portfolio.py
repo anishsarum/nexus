@@ -7,31 +7,38 @@ import logging
 
 router = APIRouter()
 
+
 # Example: expects holdings as a query param (in production, fetch from DB)
 @router.get("/api/portfolio/value")
 async def get_portfolio_value(
     symbols: str = Query(..., description="Comma-separated ticker symbols"),
     quantities: str = Query(..., description="Comma-separated quantities"),
-    avgPrices: str = Query(..., description="Comma-separated average prices")
+    avgPrices: str = Query(..., description="Comma-separated average prices"),
 ):
     symbol_list = symbols.split(",")
     quantity_list = [float(q) for q in quantities.split(",")]
     avg_price_list = [float(p) for p in avgPrices.split(",")]
-    if len(symbol_list) != len(quantity_list) or len(symbol_list) != len(avg_price_list):
-        return JSONResponse({"error": "Symbols, quantities, and avgPrices length mismatch"}, status_code=400)
-
+    if len(symbol_list) != len(quantity_list) or len(symbol_list) != len(
+        avg_price_list
+    ):
+        return JSONResponse(
+            {"error": "Symbols, quantities, and avgPrices length mismatch"},
+            status_code=400,
+        )
 
     def get_fallback_price(provider, symbol):
         try:
             data_result = provider.fetch_stock_data(symbol)
             if not data_result.get("success") or data_result["data"] is None:
-                logging.warning(f"Fallback: No data for {symbol}: {data_result.get('error')}")
-                return 0.0, None, data_result.get('error')
+                logging.warning(
+                    f"Fallback: No data for {symbol}: {data_result.get('error')}"
+                )
+                return 0.0, None, data_result.get("error")
             data = data_result["data"]
             if isinstance(data, pd.DataFrame) and not data.empty:
                 latest = data.iloc[-1]
                 price = float(latest["Close"]) if "Close" in latest else 0.0
-                timestamp = str(latest.name) if hasattr(latest, 'name') else None
+                timestamp = str(latest.name) if hasattr(latest, "name") else None
                 return price, timestamp, None
             else:
                 logging.warning(f"Fallback: Data empty for {symbol}")
@@ -57,7 +64,9 @@ async def get_portfolio_value(
 
     assets = []
     total_value = 0
-    for symbol, qty, avg_price, price, timestamp, error in zip(symbol_list, quantity_list, avg_price_list, prices, timestamps, errors):
+    for symbol, qty, avg_price, price, timestamp, error in zip(
+        symbol_list, quantity_list, avg_price_list, prices, timestamps, errors
+    ):
         price = float(price) if price is not None else 0.0
         qty = float(qty) if qty is not None else 0.0
         avg_price = float(avg_price) if avg_price is not None else 0.0
@@ -81,7 +90,7 @@ async def get_portfolio_value(
             "price": price,
             "value": value,
             "change_pct": change_pct,
-            "timestamp": timestamp
+            "timestamp": timestamp,
         }
         if error:
             asset["error"] = error

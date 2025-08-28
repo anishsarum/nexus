@@ -18,6 +18,7 @@ def get_sma(data, window):
         return SMAIndicator(data, window=window).sma_indicator()
     except Exception as e:
         import logging
+
         logging.error(f"Error calculating SMA: {e}")
         return None
 
@@ -39,6 +40,7 @@ def get_macd(data):
         return macd_indicator.macd(), macd_indicator.macd_signal()
     except Exception as e:
         import logging
+
         logging.error(f"Error calculating MACD: {e}")
         return None, None
 
@@ -55,6 +57,7 @@ def calculate_technical_indicators(data):
     """
     if data is None or "close" not in data:
         import logging
+
         logging.error("Input data must be a DataFrame with a 'close' column.")
         return {"success": False, "error": "Missing 'close' column", "indicators": None}
     close_prices = data["close"].squeeze()
@@ -68,5 +71,9 @@ def calculate_technical_indicators(data):
         "MACD_Signal": macd_signal,
     }
     if any(v is None for v in indicators.values()):
-        return {"success": False, "error": "Indicator calculation failed", "indicators": indicators}
+        return {
+            "success": False,
+            "error": "Indicator calculation failed",
+            "indicators": indicators,
+        }
     return {"success": True, "indicators": indicators}
