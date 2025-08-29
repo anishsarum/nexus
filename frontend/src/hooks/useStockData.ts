@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 interface UseStockDataProps {
   symbol: string;
-  token?: string;
   startDate?: string;
   endDate?: string;
 }
@@ -15,7 +15,6 @@ interface StockInfo {
   [key: string]: any;
 }
 
-
 interface UseStockDataResult {
   price: StockPrice | null;
   info: StockInfo | null;
@@ -26,7 +25,6 @@ interface UseStockDataResult {
 
 export default function useStockData({
   symbol,
-  token,
   startDate,
   endDate,
 }: UseStockDataProps): UseStockDataResult {
@@ -35,6 +33,7 @@ export default function useStockData({
   const [history, setHistory] = useState<any[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     if (!symbol) return;

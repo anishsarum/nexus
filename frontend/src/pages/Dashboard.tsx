@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
+import { PriceCard, InfoCard, HistoryChart, TradeForm } from '../components/StockWidgets';
 import { Box, Button, Typography, Alert, Stack } from '@mui/material';
 import useStockData from '../hooks/useStockData';
-import TickerSearchBar from './TickerSearchBar';
-import DateRangePicker from './DateRangePicker';
+import TickerSearchBar from '../components/TickerSearchBar';
+import DateRangePicker from '../components/DateRangePicker';
 import useTickerList from '../hooks/useTickerList';
 
-// Type definitions for props
 interface DashboardProps {
   token: string;
   onLogout: () => void;
@@ -31,18 +30,14 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [startDate, setStartDate] = useState(defaultStartDate);
   const [endDate, setEndDate] = useState(today);
 
-  // Use custom hook for all stock data
   const { price, info, history, loading, error } = useStockData({
     symbol,
-    token,
     startDate,
     endDate,
   });
 
-  // Use custom hook for ticker list
   const { tickerList, tickerLoading, tickerError } = useTickerList();
 
-  // State for input value to force uppercase
   const [inputValue, setInputValue] = useState(symbol || '');
 
   return (

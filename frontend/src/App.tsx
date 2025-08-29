@@ -1,29 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Typography, Box } from '@mui/material';
-import AuthForm from './components/AuthForm';
-import Dashboard from './components/Dashboard';
-import Portfolio from './components/Portfolio';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import Portfolio from './pages/Portfolio';
 import SidebarLayout from './components/SidebarLayout';
-import LandingPage from './components/LandingPage';
+import LandingPage from './pages/LandingPage';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
-const App: React.FC = () => {
-  const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
-  // Removed unused authMode and setAuthMode
-  const [selectedSymbol, setSelectedSymbol] = useState<string>('');
-  const [watchlistRefreshKey, setWatchlistRefreshKey] = useState<number>(0);
-
-  const handleAuth = (data: { token?: string }) => {
-    if (data.token) {
-      setToken(data.token);
-      localStorage.setItem('token', data.token);
-    }
-  };
-
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token');
-  };
+const AppContent: React.FC = () => {
+  const { token, logout } = useAuth();
+  const [selectedSymbol, setSelectedSymbol] = React.useState<string>('');
+  const [watchlistRefreshKey, setWatchlistRefreshKey] = React.useState<number>(0);
 
   const handleSelectTicker = (symbol: string) => {
     setSelectedSymbol(symbol);
@@ -38,8 +27,8 @@ const App: React.FC = () => {
       {!token ? (
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<AuthForm mode="login" onAuth={handleAuth} />} />
-          <Route path="/signup" element={<AuthForm mode="signup" onAuth={handleAuth} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       ) : (
@@ -55,7 +44,7 @@ const App: React.FC = () => {
               <Button component={Link} to="/dashboard" color="primary" sx={{ mr: 2 }}>
                 Dashboard
               </Button>
-              <Button onClick={handleLogout} color="secondary" variant="outlined">
+              <Button onClick={logout} color="secondary" variant="outlined">
                 Logout
               </Button>
             </Toolbar>
@@ -81,7 +70,7 @@ const App: React.FC = () => {
                   element={
                     <Dashboard
                       token={token}
-                      onLogout={handleLogout}
+                      onLogout={logout}
                       symbol={selectedSymbol}
                       onWatchlistRefresh={handleWatchlistRefresh}
                       onSymbolChange={setSelectedSymbol}
@@ -97,5 +86,11 @@ const App: React.FC = () => {
     </Router>
   );
 };
+
+const App: React.FC = () => (
+  <AuthProvider>
+    <AppContent />
+  </AuthProvider>
+);
 
 export default App;
