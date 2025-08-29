@@ -13,6 +13,7 @@ export default [
       '**/share/**',
       '**/envs/**',
       '**/build/**',
+      '**/dist/**',
       '**/public/**',
       '*.py',
       '*.pyc',

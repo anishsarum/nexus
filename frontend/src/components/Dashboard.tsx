@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from './StockWidgets';
-import WatchlistSidebar from './WatchlistSidebar';
 import { Box, Button, Typography, Alert, Stack } from '@mui/material';
 import useStockData from '../hooks/useStockData';
 import TickerSearchBar from './TickerSearchBar';
@@ -15,13 +14,6 @@ interface DashboardProps {
   onWatchlistRefresh: () => void;
   onSymbolChange: (symbol: string) => void;
 }
-
-declare const process: {
-  env: {
-    REACT_APP_PYTHON_API_URL?: string;
-    [key: string]: any;
-  };
-};
 
 const Dashboard: React.FC<DashboardProps> = ({
   token,
@@ -38,9 +30,6 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [showJson, setShowJson] = useState(false);
   const [startDate, setStartDate] = useState(defaultStartDate);
   const [endDate, setEndDate] = useState(today);
-  const [watchlistRefreshKey, setWatchlistRefreshKey] = useState(0);
-
-  const handleStockAdded = () => setWatchlistRefreshKey((k) => k + 1);
 
   // Use custom hook for all stock data
   const { price, info, history, loading, error } = useStockData({

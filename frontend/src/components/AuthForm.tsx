@@ -29,7 +29,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
       } else {
         onAuth(data);
       }
-    } catch (err) {
+    } catch {
       setError('Network error');
     }
   };

@@ -21,7 +21,7 @@ router.post('/signup', async (req: Request, res: Response) => {
     const user = new User({ username, email, password: hashedPassword });
     await user.save();
     res.status(201).json({ message: 'User created successfully.' });
-  } catch (_err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 });
@@ -43,7 +43,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
     res.json({ token });
-  } catch (_err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 });

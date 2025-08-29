@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import WatchlistSidebar from './WatchlistSidebar';
-import WatchlistNavigate from './WatchlistNavigate';
 
 interface SidebarLayoutProps {
   children: ReactNode;

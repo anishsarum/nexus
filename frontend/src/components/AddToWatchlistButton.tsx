@@ -31,7 +31,7 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
       );
       setSnackbarOpen(true);
       if (onAdded) onAdded(symbol);
-    } catch (err) {
+    } catch {
       // Optionally handle error
     }
     setLoading(false);

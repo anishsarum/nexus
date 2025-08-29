@@ -10,7 +10,7 @@ export default function auth(req: Request, res: Response, next: NextFunction) {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     (req as any).user = { id: decoded.userId };
     next();
-  } catch (_err) {
+  } catch {
     res.status(401).json({ error: 'Token is not valid.' });
   }
 }

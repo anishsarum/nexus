@@ -1,6 +1,8 @@
+
 # Trading Platform (MERN + FastAPI)
 
-A full-stack trading platform using MongoDB, Express, React, Node.js, and FastAPI (Python) for financial data, strategies, and analytics. All services run in Docker for easy development.
+A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (TypeScript), and FastAPI (Python) for financial data, strategies, and analytics. All services run in Docker for easy development and deployment.
+
 
 ## Features
 
@@ -10,7 +12,10 @@ A full-stack trading platform using MongoDB, Express, React, Node.js, and FastAP
 - View historical price charts
 - Fully functional virtual trading (buy/sell)
 - FastAPI backend for stock data, strategies, and analytics
-- Dockerized setup
+- TypeScript backend (Express)
+- All API routes versioned under `/api/v1/*` (Node) and `/pyapi/api/v1/*` (Python)
+- Dockerized setup for frontend, backend, Python, MongoDB, Redis
+
 
 ## Quick Start
 
@@ -26,9 +31,9 @@ This uses both `docker-compose.yml` and `docker-compose.override.yml` for develo
 
 **Dev mode details:**
 
-- Frontend runs with `npm start` (hot reload, API proxy enabled via `package.json`)
-- Backend and Python services run with local code mounted for instant updates
-- API requests from frontend are proxied to backend using the React proxy field
+- Frontend runs with Vite dev server (hot reload, API proxy enabled via `vite.config.ts`)
+- Backend (Node/Express/TypeScript) and Python services run with local code mounted for instant updates
+- API requests from frontend are proxied to backend using Vite proxy config
 
 ### Production
 
@@ -42,16 +47,21 @@ This ignores the override file and uses only `docker-compose.yml`.
 
 **Prod mode details:**
 
-- Frontend is served as static files (no React proxy)
+- Frontend is served as static files (no Vite proxy)
 - API routing handled by NGINX or your cloud proxy
 - No code mounting; containers use built images
 
 ### Access
 
 - Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend: [http://localhost:5001](http://localhost:5001)
-- Python API: [http://localhost:8000](http://localhost:8000)
+- Backend: [http://localhost:5001/api/v1](http://localhost:5001/api/v1)
+- Python API: [http://localhost:8000/pyapi/api/v1](http://localhost:8000/pyapi/api/v1)
 - Production Website: [https://trading.anishsarum.dev](https://trading.anishsarum.dev)
+
+### API Routes
+
+- Node backend: `/api/v1/auth`, `/api/v1/portfolio`, `/api/v1/watchlist`, etc.
+- Python backend: `/pyapi/api/v1/stock`, `/pyapi/api/v1/portfolio/value`, etc.
 
 ### Environment Variables
 
@@ -59,12 +69,14 @@ Use `.env.production` and `.env.development` files in each service directory for
 
 **Note:** The override file is only used for development. For production, use only `docker-compose.yml` and your proxy config.
 
+
 ## Security
 
 - Passwords are securely hashed using bcrypt before storage; plain text passwords are never saved.
 - User authentication is handled via JWT tokens for stateless and secure sessions.
 - Sensitive configuration (e.g., secrets, API keys) is managed through environment variables and never hardcoded.
 - All source code is public for transparency and auditability.
+
 
 ## Next Steps
 

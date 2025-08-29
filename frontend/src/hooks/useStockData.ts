@@ -1,9 +1,3 @@
-declare const process: {
-  env: {
-    REACT_APP_PYTHON_API_URL?: string;
-    [key: string]: any;
-  };
-};
 import { useState, useEffect } from 'react';
 
 interface UseStockDataProps {
@@ -21,9 +15,6 @@ interface StockInfo {
   [key: string]: any;
 }
 
-interface StockHistory {
-  history: any[];
-}
 
 interface UseStockDataResult {
   price: StockPrice | null;

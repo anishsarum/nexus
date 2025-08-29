@@ -28,29 +28,25 @@ const TickerSearchBar: React.FC<TickerSearchBarProps> = ({
         value={symbol}
         inputValue={inputValue}
         loading={tickerLoading}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_event, newInputValue) => {
           setInputValue(newInputValue.toUpperCase());
         }}
-        onChange={(event, newValue) => {
+        onChange={(_event, newValue) => {
           if (newValue && onSymbolChange) {
             onSymbolChange(newValue);
             setInputValue(newValue);
           }
         }}
         renderInput={(params) => {
-          const { InputLabelProps, ...rest } = params;
           return (
             <TextField
-              {...rest}
+              {...params}
               label="Stock Symbol"
               placeholder="e.g. AAPL"
               size="small"
               sx={{ flex: 2 }}
-              slotProps={{
-                inputLabel: {
-                  shrink: true,
-                  className: '',
-                },
+              InputLabelProps={{
+                shrink: true,
               }}
             />
           );
