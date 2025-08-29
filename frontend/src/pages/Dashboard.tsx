@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PriceCard, InfoCard, HistoryChart, TradeForm } from '../components/StockWidgets';
-import { Box, Button, Typography, Alert, Stack } from '@mui/material';
+import { Box, Typography, Alert, Stack } from '@mui/material';
 import useStockData from '../hooks/useStockData';
 import TickerSearchBar from '../components/TickerSearchBar';
 import DateRangePicker from '../components/DateRangePicker';
@@ -8,7 +8,6 @@ import useTickerList from '../hooks/useTickerList';
 
 interface DashboardProps {
   token: string;
-  onLogout: () => void;
   symbol: string;
   onWatchlistRefresh: () => void;
   onSymbolChange: (symbol: string) => void;
@@ -16,7 +15,6 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({
   token,
-  onLogout,
   symbol,
   onWatchlistRefresh,
   onSymbolChange,
@@ -40,6 +38,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   const [inputValue, setInputValue] = useState(symbol || '');
 
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Box
@@ -53,9 +52,6 @@ const Dashboard: React.FC<DashboardProps> = ({
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
           <Typography variant="h4">Market Dashboard</Typography>
-          <Button onClick={onLogout} variant="outlined" color="secondary">
-            Logout
-          </Button>
         </Stack>
         <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
           <TickerSearchBar

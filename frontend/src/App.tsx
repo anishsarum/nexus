@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Button, Typography, Box } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Box } from '@mui/material';
+import TopBar from './components/TopBar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -33,22 +34,7 @@ const AppContent: React.FC = () => {
         </Routes>
       ) : (
         <>
-          <AppBar position="static" color="default" elevation={1}>
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                Trading Platform
-              </Typography>
-              <Button component={Link} to="/portfolio" color="primary" sx={{ mr: 2 }}>
-                Portfolio
-              </Button>
-              <Button component={Link} to="/dashboard" color="primary" sx={{ mr: 2 }}>
-                Dashboard
-              </Button>
-              <Button onClick={logout} color="secondary" variant="outlined">
-                Logout
-              </Button>
-            </Toolbar>
-          </AppBar>
+          <TopBar onLogout={logout} />
           <SidebarLayout
             token={token}
             onSelectTicker={handleSelectTicker}
@@ -61,6 +47,7 @@ const AppContent: React.FC = () => {
                 mt: 4,
                 fontFamily: 'sans-serif',
                 flex: 1,
+                pt: 8, // Add top padding to prevent content from being hidden behind AppBar
               }}
             >
               <Routes>
@@ -70,7 +57,6 @@ const AppContent: React.FC = () => {
                   element={
                     <Dashboard
                       token={token}
-                      onLogout={logout}
                       symbol={selectedSymbol}
                       onWatchlistRefresh={handleWatchlistRefresh}
                       onSymbolChange={setSelectedSymbol}
