@@ -24,3 +24,6 @@ mongo-data/
 
 # Misc
 *.log
+
+# UI theme
+/material-ui-master/

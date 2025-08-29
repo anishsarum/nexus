@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import TopBar from './components/TopBar';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import SignIn from './pages/sign-in/SignIn';
+import SignUp from './pages/sign-up/SignUp';
 import Dashboard from './pages/Dashboard';
 import Portfolio from './pages/Portfolio';
 import SidebarLayout from './components/SidebarLayout';
-import LandingPage from './pages/LandingPage';
+import MarketingPage from './pages/marketing-page/MarketingPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 const AppContent: React.FC = () => {
@@ -27,9 +27,9 @@ const AppContent: React.FC = () => {
     <Router>
       {!token ? (
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<MarketingPage />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       ) : (
