@@ -1,12 +1,15 @@
 
+
 # Trading Platform (MERN + FastAPI)
 
-A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (TypeScript), and FastAPI (Python) for financial data, strategies, and analytics. All services run in Docker for easy development and deployment.
+A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (TypeScript), and FastAPI (Python) for financial data, strategies, and analytics. **All services (frontend, backend, Python API, MongoDB, Redis) run in Docker for both development and production.**
+Development containers mount local code for instant updates and hot-reloading; production containers use built images only.
+
 
 
 ## Features
 
-- User authentication (JWT)
+- User authentication (JWT, bcrypt password hashing)
 - Responsive Material UI dashboard (watchlist, portfolio, price, info, charts)
 - Add/remove stocks to watchlist
 - View historical price charts
@@ -14,7 +17,9 @@ A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (Typ
 - FastAPI backend for stock data, strategies, and analytics
 - TypeScript backend (Express)
 - All API routes versioned under `/api/v1/*` (Node) and `/pyapi/api/v1/*` (Python)
+- Modular code for strategy builder, analytics, and real-time updates
 - Dockerized setup for frontend, backend, Python, MongoDB, Redis
+
 
 
 ## Quick Start
@@ -34,6 +39,7 @@ This uses both `docker-compose.yml` and `docker-compose.override.yml` for develo
 - Frontend runs with Vite dev server (hot reload, API proxy enabled via `vite.config.ts`)
 - Backend (Node/Express/TypeScript) and Python services run with local code mounted for instant updates
 - API requests from frontend are proxied to backend using Vite proxy config
+- All services run in Docker containers with local code mounting for instant updates
 
 ### Production
 
@@ -65,9 +71,10 @@ This ignores the override file and uses only `docker-compose.yml`.
 
 ### Environment Variables
 
-Use `.env.production` and `.env.development` files in each service directory for environment-specific configuration. Docker Compose and the override file will set the correct variables for each environment.
+Use `.env.production` and `.env.development` files in each service directory for environment-specific configuration. **Never hardcode secrets or sensitive configuration.** Docker Compose and the override file will set the correct variables for each environment.
 
 **Note:** The override file is only used for development. For production, use only `docker-compose.yml` and your proxy config.
+
 
 
 ## Security
@@ -78,9 +85,15 @@ Use `.env.production` and `.env.development` files in each service directory for
 - All source code is public for transparency and auditability.
 
 
+
 ## Next Steps
 
 - Manual strategy builder and backtesting (in progress)
 - Add trading strategies and real-time updates
 - Expand portfolio analytics
 - Improve documentation
+
+## Contributing & Documentation
+
+- Please document new features or changes in this README.
+- Keep code modular for strategy builder, analytics, and real-time updates.
