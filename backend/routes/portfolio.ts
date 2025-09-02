@@ -4,7 +4,6 @@ import auth from '../middleware/auth';
 
 const router = Router();
 
-// Get portfolio
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
     // @ts-ignore
@@ -15,7 +14,6 @@ router.get('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-// Buy asset
 router.post('/buy', auth, async (req: Request, res: Response) => {
   try {
     const { symbol, quantity, price } = req.body;

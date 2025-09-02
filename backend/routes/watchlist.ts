@@ -4,7 +4,6 @@ import auth from '../middleware/auth';
 
 const router = Router();
 
-// Add asset to watchlist
 router.post('/', auth, async (req: Request, res: Response) => {
   try {
     const { symbol, name } = req.body;
@@ -22,7 +21,6 @@ router.post('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-// Get all assets in watchlist
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
     // @ts-ignore
@@ -33,7 +31,6 @@ router.get('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-// Remove asset from watchlist
 router.delete('/:symbol', auth, async (req: Request, res: Response) => {
   try {
     const { symbol } = req.params;

@@ -6,7 +6,6 @@ import User from '../models/User';
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
-// Sign-up route
 router.post('/signup', async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -26,7 +25,6 @@ router.post('/signup', async (req: Request, res: Response) => {
   }
 });
 
-// Login route
 router.post('/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
   if (!username || !password) {
