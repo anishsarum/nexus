@@ -23,8 +23,7 @@ const items = [
   {
     icon: <EdgesensorHighRoundedIcon />,
     title: 'Mobile integration',
-    description:
-      'This item could provide information about the mobile app version of the product.',
+    description: 'This item could provide information about the mobile app version of the product.',
     imageLight: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/mobile-light.png")`,
     imageDark: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/mobile-dark.png")`,
   },
@@ -47,8 +46,7 @@ const Chip = styled(MuiChip)<ChipProps>(({ theme }) => ({
     {
       props: ({ selected }) => !!selected,
       style: {
-        background:
-          'linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))',
+        background: 'linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))',
         color: 'hsl(0, 0%, 100%)',
         borderColor: (theme.vars || theme).palette.primary.light,
         '& .MuiChip-label': {
@@ -107,10 +105,7 @@ export function MobileLayout({
           }}
         />
         <Box sx={{ px: 2, pb: 2 }}>
-          <Typography
-            gutterBottom
-            sx={{ color: 'text.primary', fontWeight: 'medium' }}
-          >
+          <Typography gutterBottom sx={{ color: 'text.primary', fontWeight: 'medium' }}>
             {selectedFeature?.title}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1.5 }}>
@@ -134,21 +129,12 @@ export default function Features() {
   return (
     <Container id="features" sx={{ py: { xs: 8, sm: 16 } }}>
       <Box sx={{ width: { sm: '100%', md: '60%' } }}>
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: 'text.primary' }}
-        >
+        <Typography component="h2" variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
           Product features
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: 'text.secondary', mb: { xs: 2, sm: 4 } }}
-        >
-          Provide a brief overview of the key features of the product. For example,
-          you could list the number of features, their types or benefits, and
-          add-ons.
+        <Typography variant="body1" sx={{ color: 'text.secondary', mb: { xs: 2, sm: 4 } }}>
+          Provide a brief overview of the key features of the product. For example, you could list
+          the number of features, their types or benefits, and add-ons.
         </Typography>
       </Box>
       <Box

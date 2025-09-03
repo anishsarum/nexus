@@ -16,12 +16,7 @@ export default function HighlightedCard() {
     <Card sx={{ height: '100%' }}>
       <CardContent>
         <InsightsRoundedIcon />
-        <Typography
-          component="h2"
-          variant="subtitle2"
-          gutterBottom
-          sx={{ fontWeight: '600' }}
-        >
+        <Typography component="h2" variant="subtitle2" gutterBottom sx={{ fontWeight: '600' }}>
           Explore your data
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: '8px' }}>

@@ -9,12 +9,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
-import {
-  IndiaFlag,
-  UsaFlag,
-  BrazilFlag,
-  GlobeFlag,
-} from '../internals/components/CustomIcons';
+import { IndiaFlag, UsaFlag, BrazilFlag, GlobeFlag } from '../internals/components/CustomIcons';
 
 const data = [
   { label: 'India', value: 50000 },
@@ -157,11 +152,7 @@ export default function ChartUserByCountry() {
           </PieChart>
         </Box>
         {countries.map((country, index) => (
-          <Stack
-            key={index}
-            direction="row"
-            sx={{ alignItems: 'center', gap: 2, pb: 2 }}
-          >
+          <Stack key={index} direction="row" sx={{ alignItems: 'center', gap: 2, pb: 2 }}>
             {country.flag}
             <Stack sx={{ gap: 1, flexGrow: 1 }}>
               <Stack

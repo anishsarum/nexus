@@ -17,12 +17,7 @@ const tiers = [
   {
     title: 'Free',
     price: '0',
-    description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
-      'Email support',
-    ],
+    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
     buttonText: 'Sign up for free',
     buttonVariant: 'outlined',
     buttonColor: 'primary',
@@ -78,19 +73,13 @@ export default function Pricing() {
           textAlign: { sm: 'left', md: 'center' },
         }}
       >
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: 'text.primary' }}
-        >
+        <Typography component="h2" variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
           Pricing
         </Typography>
         <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          Quickly build an effective pricing table for your potential customers with
-          this layout. <br />
-          It&apos;s built with default Material UI components with little
-          customization.
+          Quickly build an effective pricing table for your potential customers with this layout.{' '}
+          <br />
+          It&apos;s built with default Material UI components with little customization.
         </Typography>
       </Box>
       <Grid
@@ -99,10 +88,7 @@ export default function Pricing() {
         sx={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
         {tiers.map((tier) => (
-          <Grid
-            size={{ xs: 12, sm: tier.title === 'Enterprise' ? 12 : 6, md: 4 }}
-            key={tier.title}
-          >
+          <Grid size={{ xs: 12, sm: tier.title === 'Enterprise' ? 12 : 6, md: 4 }} key={tier.title}>
             <Card
               sx={
                 tier.title === 'Professional'
@@ -163,10 +149,7 @@ export default function Pricing() {
                 </Box>
                 <Divider sx={{ my: 2, opacity: 0.8, borderColor: 'divider' }} />
                 {tier.description.map((line) => (
-                  <Box
-                    key={line}
-                    sx={{ py: 1, display: 'flex', gap: 1.5, alignItems: 'center' }}
-                  >
+                  <Box key={line} sx={{ py: 1, display: 'flex', gap: 1.5, alignItems: 'center' }}>
                     <CheckCircleRoundedIcon
                       sx={{
                         width: 20,

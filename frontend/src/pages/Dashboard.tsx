@@ -38,7 +38,6 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   const [inputValue, setInputValue] = useState(symbol || '');
 
-
   return (
     <Box sx={{ display: 'flex' }}>
       <Box

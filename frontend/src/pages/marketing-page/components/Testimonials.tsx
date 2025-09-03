@@ -112,18 +112,12 @@ export default function Testimonials() {
           textAlign: { sm: 'left', md: 'center' },
         }}
       >
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: 'text.primary' }}
-        >
+        <Typography component="h2" variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
           Testimonials
         </Typography>
         <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          See what our customers love about our products. Discover how we excel in
-          efficiency, durability, and satisfaction. Join us for quality, innovation,
-          and reliable support.
+          See what our customers love about our products. Discover how we excel in efficiency,
+          durability, and satisfaction. Join us for quality, innovation, and reliable support.
         </Typography>
       </Box>
       <Grid container spacing={2}>
@@ -139,11 +133,7 @@ export default function Testimonials() {
               }}
             >
               <CardContent>
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  sx={{ color: 'text.secondary' }}
-                >
+                <Typography variant="body1" gutterBottom sx={{ color: 'text.secondary' }}>
                   {testimonial.testimonial}
                 </Typography>
               </CardContent>
@@ -159,11 +149,7 @@ export default function Testimonials() {
                   title={testimonial.name}
                   subheader={testimonial.occupation}
                 />
-                <img
-                  src={logos[index]}
-                  alt={`Logo ${index + 1}`}
-                  style={logoStyle}
-                />
+                <img src={logos[index]} alt={`Logo ${index + 1}`} style={logoStyle} />
               </Box>
             </Card>
           </Grid>

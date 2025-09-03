@@ -112,11 +112,7 @@ function CustomLabel({ color, expandable, children, ...other }: CustomLabelProps
   return (
     <TreeItemLabel {...other} sx={{ display: 'flex', alignItems: 'center' }}>
       {iconColor && <DotIcon color={iconColor} />}
-      <Typography
-        className="labelText"
-        variant="body2"
-        sx={{ color: 'text.primary' }}
-      >
+      <Typography className="labelText" variant="body2" sx={{ color: 'text.primary' }}>
         {children}
       </Typography>
     </TreeItemLabel>
@@ -129,7 +125,7 @@ interface CustomTreeItemProps
 
 const CustomTreeItem = React.forwardRef(function CustomTreeItem(
   props: CustomTreeItemProps,
-  ref: React.Ref<HTMLLIElement>,
+  ref: React.Ref<HTMLLIElement>
 ) {
   const { id, itemId, label, disabled, children, ...other } = props;
   const safeId = id ?? '';
@@ -148,7 +144,7 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
   const item = publicAPI.getItem(itemId);
   const color = item?.color;
   return (
-  <TreeItemProvider id={safeId} itemId={itemId}>
+    <TreeItemProvider id={safeId} itemId={itemId}>
       <TreeItemRoot {...getRootProps(other)}>
         <TreeItemContent
           {...getContentProps({
@@ -169,9 +165,7 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
           <CustomLabel {...getLabelProps({ color })} />
         </TreeItemContent>
         {children && (
-          <TransitionComponent
-            {...getGroupTransitionProps({ className: 'groupTransition' })}
-          />
+          <TransitionComponent {...getGroupTransitionProps({ className: 'groupTransition' })} />
         )}
       </TreeItemRoot>
     </TreeItemProvider>

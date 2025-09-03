@@ -80,12 +80,7 @@ export default function Footer() {
                 }}
                 sx={{ width: '250px' }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={{ flexShrink: 0 }}
-              >
+              <Button variant="contained" color="primary" size="small" sx={{ flexShrink: 0 }}>
                 Subscribe
               </Button>
             </Stack>
@@ -172,9 +167,7 @@ export default function Footer() {
           <Link color="text.secondary" variant="body2" href="#">
             Privacy Policy
           </Link>
-          <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
-            &nbsp;•&nbsp;
-          </Typography>
+          <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>&nbsp;•&nbsp;</Typography>
           <Link color="text.secondary" variant="body2" href="#">
             Terms of Service
           </Link>
