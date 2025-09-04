@@ -129,11 +129,7 @@ const SignUp: React.FC = (props) => {
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <img
-              src={nexusLogo}
-              alt="Nexus Logo"
-              style={{ height: 32 }}
-            />
+            <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32 }} />
           </Box>
           <Typography
             component="h1"

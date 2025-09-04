@@ -45,7 +45,8 @@ export default function Hero() {
             color: theme.palette.mode === 'light' ? '#333' : theme.palette.text.secondary,
           })}
         >
-          Welcome to your all-in-one trading dashboard. Track stocks, manage your portfolio, and explore trading strategies all in one place.
+          Welcome to your all-in-one trading dashboard. Track stocks, manage your portfolio, and
+          explore trading strategies all in one place.
         </Typography>
       </Box>
     </Box>

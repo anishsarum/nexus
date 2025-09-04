@@ -51,11 +51,7 @@ export default function AppAppBar() {
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-            <img
-              src={nexusLogo}
-              alt="Nexus Logo"
-              style={{ height: 32, marginRight: 12 }}
-            />
+            <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32, marginRight: 12 }} />
             <span
               style={{
                 fontFamily: 'Inter, Roboto, Arial, sans-serif',
@@ -76,13 +72,7 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button
-              color="primary"
-              variant="text"
-              size="small"
-              component={RouterLink}
-              to="/login"
-            >
+            <Button color="primary" variant="text" size="small" component={RouterLink} to="/login">
               Sign in
             </Button>
             <Button

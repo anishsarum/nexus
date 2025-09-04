@@ -82,10 +82,10 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     if (emailError || passwordError) {
       return;
     }
-  const formData = new FormData(event.currentTarget);
-  const email = formData.get('email');
-  const password = formData.get('password');
-  const payload = { email, password };
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const payload = { email, password };
     console.log('Login payload:', payload);
     try {
       const res = await fetch('/api/v1/auth/login', {
@@ -147,11 +147,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <img
-              src={nexusLogo}
-              alt="Nexus Logo"
-              style={{ height: 32 }}
-            />
+            <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32 }} />
           </Box>
           <Typography
             component="h1"
@@ -204,12 +200,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
+            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
               Sign in
             </Button>
             {apiError && (

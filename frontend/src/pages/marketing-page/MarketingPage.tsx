@@ -28,7 +28,7 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
       >
         {/* Overlay for light mode */}
         <Box
-          sx={theme => ({
+          sx={(theme) => ({
             position: 'absolute',
             top: 0,
             left: 0,
@@ -37,9 +37,7 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
             pointerEvents: 'none',
             zIndex: 0,
             backgroundColor:
-              theme.palette.mode === 'light'
-                ? 'rgba(255,255,255,0.5)'
-                : 'transparent',
+              theme.palette.mode === 'light' ? 'rgba(255,255,255,0.5)' : 'transparent',
           })}
         />
         <Box sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
@@ -50,7 +48,16 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
           </div>
           <Box sx={{ width: '100%', textAlign: 'center', mt: 4, mb: 2 }}>
             <Typography variant="caption" sx={{ color: 'white', opacity: 0.7 }}>
-              Photo by <Link href="https://unsplash.com/@nampoh" target="_blank" rel="noopener" color="inherit">Maxim Hopman</Link> on Unsplash
+              Photo by{' '}
+              <Link
+                href="https://unsplash.com/@nampoh"
+                target="_blank"
+                rel="noopener"
+                color="inherit"
+              >
+                Maxim Hopman
+              </Link>{' '}
+              on Unsplash
             </Typography>
           </Box>
         </Box>

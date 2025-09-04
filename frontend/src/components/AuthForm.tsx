@@ -16,7 +16,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-  const payload = isSignup ? { email, password } : { email, password };
+    const payload = isSignup ? { email, password } : { email, password };
     try {
       const res = await fetch(`/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
@@ -50,7 +50,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
       <Typography variant="h5" align="center" gutterBottom>
         {isSignup ? 'Sign Up' : 'Login'}
       </Typography>
-  {/* Username field removed for email-only auth */}
+      {/* Username field removed for email-only auth */}
       {isSignup && (
         <TextField
           label="Email"
