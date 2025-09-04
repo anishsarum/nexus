@@ -7,7 +7,7 @@ type AuthFormProps = {
 };
 
 const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
-  const [username, setUsername] = useState<string>('');
+  // Username removed for email-only auth
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +16,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    const payload = isSignup ? { username, email, password } : { username, password };
+  const payload = isSignup ? { email, password } : { email, password };
     try {
       const res = await fetch(`/api/v1/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
@@ -50,15 +50,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode = 'login', onAuth }) => {
       <Typography variant="h5" align="center" gutterBottom>
         {isSignup ? 'Sign Up' : 'Login'}
       </Typography>
-      <TextField
-        label="Username"
-        variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        fullWidth
-        sx={{ mb: 2 }}
-      />
+  {/* Username field removed for email-only auth */}
       {isSignup && (
         <TextField
           label="Email"
