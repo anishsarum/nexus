@@ -4,9 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -15,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from './components/ForgotPassword';
+// import ForgotPassword from './components/ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import nexusLogo from '../../assets/nexus_logo.png';
@@ -65,18 +63,18 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const [apiError, setApiError] = React.useState('');
   const navigate = useNavigate();
   const { setToken } = useAuth();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -200,18 +198,12 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
                 variant="outlined"
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <ForgotPassword open={open} handleClose={handleClose} />
             <Button
               type="submit"
               fullWidth
@@ -225,21 +217,15 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 {apiError}
               </Typography>
             )}
-            <Link
-              component="button"
-              variant="body2"
-              sx={{ mt: 1, textAlign: 'center' }}
-              onClick={handleClickOpen}
-            >
-              Forgot your password?
-            </Link>
+            {/* Forgot your password link removed since feature is not implemented */}
           </Box>
           <Typography sx={{ textAlign: 'center' }}>
             Don&apos;t have an account?{' '}
             <Link
-              href="/material-ui/getting-started/templates/sign-in/"
+              component="button"
               variant="body2"
               sx={{ alignSelf: 'center' }}
+              onClick={() => navigate('/signup')}
             >
               Sign up
             </Link>

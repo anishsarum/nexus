@@ -7,7 +7,18 @@ const router = Router();
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const portfolio = await Portfolio.findOne({ user: req.user.id });
+    let portfolio = await Portfolio.findOne({ user: req.user.id });
+    if (!portfolio) {
+      // @ts-ignore
+      portfolio = new Portfolio({
+        // @ts-ignore
+        user: req.user.id,
+        cash: 100000,
+        holdings: [],
+        transactions: [],
+      });
+      await portfolio.save();
+    }
     res.json(portfolio);
   } catch (err: any) {
     res.status(500).json({ error: err.message });

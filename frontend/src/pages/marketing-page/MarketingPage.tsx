@@ -23,17 +23,36 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
           backgroundImage: `url(${tradingBackground})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          position: 'relative',
         }}
       >
-        <AppAppBar />
-        <Hero />
-        <div>
-          <Divider />
-        </div>
-        <Box sx={{ width: '100%', textAlign: 'center', mt: 4, mb: 2 }}>
-          <Typography variant="caption" sx={{ color: 'white', opacity: 0.7 }}>
-            Photo by <Link href="https://unsplash.com/@nampoh" target="_blank" rel="noopener" color="inherit">Maxim Hopman</Link> on Unsplash
-          </Typography>
+        {/* Overlay for light mode */}
+        <Box
+          sx={theme => ({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            zIndex: 0,
+            backgroundColor:
+              theme.palette.mode === 'light'
+                ? 'rgba(255,255,255,0.5)'
+                : 'transparent',
+          })}
+        />
+        <Box sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
+          <AppAppBar />
+          <Hero />
+          <div>
+            <Divider />
+          </div>
+          <Box sx={{ width: '100%', textAlign: 'center', mt: 4, mb: 2 }}>
+            <Typography variant="caption" sx={{ color: 'white', opacity: 0.7 }}>
+              Photo by <Link href="https://unsplash.com/@nampoh" target="_blank" rel="noopener" color="inherit">Maxim Hopman</Link> on Unsplash
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </AppTheme>

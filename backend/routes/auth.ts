@@ -27,6 +27,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
+  console.log('Login request body:', req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
@@ -42,7 +43,8 @@ router.post('/login', async (req: Request, res: Response) => {
     }
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
     res.json({ token });
-  } catch {
+  } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ error: 'Server error.' });
   }
 });

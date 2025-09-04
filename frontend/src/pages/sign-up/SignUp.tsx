@@ -3,9 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -16,7 +14,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import { SitemarkIcon } from './components/CustomIcons';
+import nexusLogo from '../../assets/nexus_logo.png';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -130,7 +128,13 @@ const SignUp: React.FC = (props) => {
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          <SitemarkIcon />
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <img
+              src={nexusLogo}
+              alt="Nexus Logo"
+              style={{ height: 32 }}
+            />
+          </Box>
           <Typography
             component="h1"
             variant="h4"
@@ -179,10 +183,6 @@ const SignUp: React.FC = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            />
             <Button type="submit" fullWidth variant="contained">
               Sign up
             </Button>
@@ -190,9 +190,10 @@ const SignUp: React.FC = (props) => {
           <Typography sx={{ textAlign: 'center' }}>
             Already have an account?{' '}
             <Link
-              href="/material-ui/getting-started/templates/sign-in/"
+              component="button"
               variant="body2"
               sx={{ alignSelf: 'center' }}
+              onClick={() => navigate('/login')}
             >
               Sign in
             </Link>
