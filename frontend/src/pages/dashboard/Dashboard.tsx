@@ -1,63 +1,106 @@
-import * as React from 'react';
-import type {} from '@mui/x-date-pickers/themeAugmentation';
-import type {} from '@mui/x-charts/themeAugmentation';
-import type {} from '@mui/x-data-grid/themeAugmentation';
-import type {} from '@mui/x-tree-view/themeAugmentation';
-import { alpha } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import AppNavbar from './components/AppNavbar';
-import Header from './components/Header';
-import MainGrid from './components/MainGrid';
-import SideMenu from './components/SideMenu';
-import AppTheme from '../shared-theme/AppTheme';
-import {
-  chartsCustomizations,
-  dataGridCustomizations,
-  datePickersCustomizations,
-  treeViewCustomizations,
-} from './theme/customizations';
+import React, { useState } from 'react';
+import PriceCard from './components/PriceCard';
+import InfoCard from './components/InfoCard';
+import HistoryChart from './components/HistoryChart';
+import TradeForm from './components/TradeForm';
+import { Box, Typography, Alert, Stack } from '@mui/material';
+import useStockData from './hooks/useStockData';
+import TickerSearchBar from './components/TickerSearchBar';
+import DateRangePicker from './components/DateRangePicker';
+import useTickerList from './hooks/useTickerList';
 
-const xThemeComponents = {
-  ...chartsCustomizations,
-  ...dataGridCustomizations,
-  ...datePickersCustomizations,
-  ...treeViewCustomizations,
+interface DashboardProps {
+  token: string;
+  symbol: string;
+  onWatchlistRefresh: () => void;
+  onSymbolChange: (symbol: string) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({
+  token,
+  symbol,
+  onWatchlistRefresh,
+  onSymbolChange,
+}) => {
+  const today = new Date().toISOString().slice(0, 10);
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  const defaultStartDate = oneMonthAgo.toISOString().slice(0, 10);
+
+  const [showJson, setShowJson] = useState(false);
+  const [startDate, setStartDate] = useState(defaultStartDate);
+  const [endDate, setEndDate] = useState(today);
+
+  const { price, info, history, loading, error } = useStockData({
+    symbol,
+    startDate,
+    endDate,
+  });
+
+  const { tickerList, tickerLoading, tickerError } = useTickerList();
+
+  const [inputValue, setInputValue] = useState(symbol || '');
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <Box
+        sx={{
+          maxWidth: 600,
+          mx: 'auto',
+          mt: 4,
+          fontFamily: 'sans-serif',
+          flex: 1,
+        }}
+      >
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+          <Typography variant="h4">Market Dashboard</Typography>
+        </Stack>
+        <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
+          <TickerSearchBar
+            tickerList={tickerList}
+            tickerLoading={tickerLoading}
+            tickerError={tickerError}
+            symbol={symbol}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            onSymbolChange={onSymbolChange}
+          />
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+        </Box>
+        {loading && <Typography>Loading...</Typography>}
+        {error && error.length > 0 && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error.map((errMsg: string, idx: number) => (
+              <div key={idx}>{errMsg}</div>
+            ))}
+          </Alert>
+        )}
+        <PriceCard price={price ? { price: price.price, date: price.date } : null} />
+        <InfoCard info={info} symbol={symbol} token={token} onAdded={onWatchlistRefresh} />
+        {symbol && (
+          <TradeForm
+            symbol={symbol}
+            token={token}
+            price={
+              price &&
+              (typeof price.price === 'object' ? Object.values(price.price)[0] : price.price)
+            }
+          />
+        )}
+        <HistoryChart
+          history={history ?? []}
+          symbol={symbol}
+          showJson={showJson}
+          setShowJson={setShowJson}
+        />
+      </Box>
+    </Box>
+  );
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean }) {
-  return (
-    <AppTheme {...props} themeComponents={xThemeComponents}>
-      <CssBaseline enableColorScheme />
-      <Box sx={{ display: 'flex' }}>
-        <SideMenu />
-        <AppNavbar />
-        {/* Main content */}
-        <Box
-          component="main"
-          sx={(theme) => ({
-            flexGrow: 1,
-            backgroundColor: theme.vars
-              ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
-              : alpha(theme.palette.background.default, 1),
-            overflow: 'auto',
-          })}
-        >
-          <Stack
-            spacing={2}
-            sx={{
-              alignItems: 'center',
-              mx: 3,
-              pb: 5,
-              mt: { xs: 8, md: 0 },
-            }}
-          >
-            <Header />
-            <MainGrid />
-          </Stack>
-        </Box>
-      </Box>
-    </AppTheme>
-  );
-}
+export default Dashboard;

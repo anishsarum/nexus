@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Typography, Box, CircularProgress, Alert } from '@mui/material';
-import PortfolioOverview from '../components/PortfolioOverview';
-import Holdings from '../components/Holdings';
-import { usePortfolio } from '../hooks/usePortfolio';
+import PortfolioOverview from './components/PortfolioOverview';
+import Holdings from './components/Holdings';
+import { usePortfolio } from './hooks/usePortfolio';
 
 const Portfolio: React.FC = () => {
   const {
