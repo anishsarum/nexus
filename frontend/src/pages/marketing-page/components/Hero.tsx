@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 
-
 const HeroCard = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

@@ -87,7 +87,13 @@ export default function AppAppBar() {
                 alignItems: 'center',
               }}
             >
-              <Button color="primary" variant="text" size="small" component={RouterLink} to="/login">
+              <Button
+                color="primary"
+                variant="text"
+                size="small"
+                component={RouterLink}
+                to="/login"
+              >
                 Sign in
               </Button>
               <Button

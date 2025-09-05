@@ -7,7 +7,6 @@ import AppAppBar from './components/AppAppBar';
 import Hero from './components/Hero';
 import Box from '@mui/material/Box';
 
-
 const MarketingBackground = styled(Box)(() => ({
   minHeight: '100vh',
   display: 'flex',
@@ -34,7 +33,7 @@ function MarketingPage() {
   return (
     <>
       <CssBaseline enableColorScheme />
-        <MarketingBackground style={{ backgroundImage }}>
+      <MarketingBackground style={{ backgroundImage }}>
         <Box sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
           <AppAppBar />
           <Hero />

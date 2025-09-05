@@ -139,88 +139,88 @@ export default function SignIn(_props: { disableCustomTheme?: boolean }) {
   };
 
   return (
-      <>
-        <CssBaseline enableColorScheme />
-        <SignInContainer direction="column" justifyContent="space-between">
-          <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
-          <Card variant="outlined">
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32 }} />
-            </Box>
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-            >
+    <>
+      <CssBaseline enableColorScheme />
+      <SignInContainer direction="column" justifyContent="space-between">
+        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+        <Card variant="outlined">
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32 }} />
+          </Box>
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+          >
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              gap: 2,
+            }}
+          >
+            <FormControl>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                error={emailError}
+                helperText={emailErrorMessage}
+                id="email"
+                type="email"
+                name="email"
+                placeholder="your@email.com"
+                autoComplete="email"
+                autoFocus
+                required
+                fullWidth
+                variant="outlined"
+                color={emailError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <TextField
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                required
+                fullWidth
+                variant="outlined"
+                color={passwordError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
               Sign in
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                gap: 2,
-              }}
+            </Button>
+            {apiError && (
+              <Typography color="error" variant="body2" sx={{ mt: 1, textAlign: 'center' }}>
+                {apiError}
+              </Typography>
+            )}
+            {/* Forgot your password link removed since feature is not implemented */}
+          </Box>
+          <Typography sx={{ textAlign: 'center' }}>
+            Don&apos;t have an account?{' '}
+            <Link
+              component="button"
+              variant="body2"
+              sx={{ alignSelf: 'center' }}
+              onClick={() => navigate('/signup')}
             >
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <TextField
-                  error={emailError}
-                  helperText={emailErrorMessage}
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="your@email.com"
-                  autoComplete="email"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                  color={emailError ? 'error' : 'primary'}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <TextField
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  required
-                  fullWidth
-                  variant="outlined"
-                  color={passwordError ? 'error' : 'primary'}
-                />
-              </FormControl>
-              <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
-                Sign in
-              </Button>
-              {apiError && (
-                <Typography color="error" variant="body2" sx={{ mt: 1, textAlign: 'center' }}>
-                  {apiError}
-                </Typography>
-              )}
-              {/* Forgot your password link removed since feature is not implemented */}
-            </Box>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link
-                component="button"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-                onClick={() => navigate('/signup')}
-              >
-                Sign up
-              </Link>
-            </Typography>
-          </Card>
-        </SignInContainer>
-      </>
-    );
+              Sign up
+            </Link>
+          </Typography>
+        </Card>
+      </SignInContainer>
+    </>
+  );
 }
