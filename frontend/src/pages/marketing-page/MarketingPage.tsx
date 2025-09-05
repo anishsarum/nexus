@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useColorScheme, styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import AppAppBar from './components/AppAppBar';
@@ -39,9 +38,6 @@ function MarketingPage() {
         <Box sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
           <AppAppBar />
           <Hero />
-          <div>
-            <Divider />
-          </div>
           <Box sx={{ width: '100%', textAlign: 'center', mt: 4, mb: 2 }}>
             <CreditLabel variant="caption">
               {isLight ? (
