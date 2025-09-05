@@ -68,6 +68,18 @@ function MarketingPage() {
                 </>
               )}
             </CreditLabel>
+            <Box sx={{ mt: 2 }}>
+              <Link
+                href="https://github.com/anishsarum/nexus"
+                target="_blank"
+                rel="noopener"
+                color="primary"
+                underline="hover"
+                fontWeight={600}
+              >
+                View Nexus on GitHub
+              </Link>
+            </Box>
           </Box>
         </Box>
       </MarketingBackground>
