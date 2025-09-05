@@ -73,10 +73,14 @@ const AppContent: React.FC = () => {
   );
 };
 
+import AppTheme from './pages/shared-theme/AppTheme';
+
 const App: React.FC = () => (
-  <AuthProvider>
-    <AppContent />
-  </AuthProvider>
+  <AppTheme>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  </AppTheme>
 );
 
 export default App;

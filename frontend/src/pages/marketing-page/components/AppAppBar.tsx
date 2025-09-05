@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useColorScheme, useTheme } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import nexusLogo from '../../../assets/nexus_logo.png';
+import Typography from '@mui/material/Typography';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -32,113 +34,127 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
+  const { mode } = useColorScheme();
+  const theme = useTheme();
+  const dynamicTextColor = theme.vars?.palette?.text?.primary || theme.palette.text.primary;
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
   return (
-    <AppBar
-      position="fixed"
-      enableColorOnDark
+    <Box
       sx={{
-        boxShadow: 0,
-        bgcolor: 'transparent',
-        backgroundImage: 'none',
-        mt: 'calc(var(--template-frame-height, 0px) + 28px)',
+        colorScheme: mode,
+        background: 'var(--mui-palette-background-default)',
+        width: '100%',
+        position: 'relative',
+        zIndex: 10,
       }}
     >
-      <Container maxWidth="lg">
-        <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-            <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32, marginRight: 12 }} />
-            <span
-              style={{
-                fontFamily: 'Inter, Roboto, Arial, sans-serif',
-                fontWeight: 800,
-                fontSize: '1.25rem',
-                letterSpacing: '-1px',
-                color: '#0e96d4ff',
-                marginTop: 2,
+      <AppBar
+        position="fixed"
+        enableColorOnDark
+        sx={{
+          boxShadow: 0,
+          bgcolor: 'transparent',
+          backgroundImage: 'none',
+          mt: 'calc(var(--template-frame-height, 0px) + 28px)',
+        }}
+      >
+        <Container maxWidth="lg">
+          <StyledToolbar variant="dense" disableGutters>
+            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
+              <img src={nexusLogo} alt="Nexus Logo" style={{ height: 32, marginRight: 12 }} />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: 'Inter, Roboto, Arial, sans-serif',
+                  fontWeight: 800,
+                  fontSize: '1.25rem',
+                  letterSpacing: '-1px',
+                  color: dynamicTextColor,
+                  transition: 'color 0.2s',
+                }}
+              >
+                Nexus
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: { xs: 'none', md: 'flex' },
+                gap: 1,
+                alignItems: 'center',
               }}
             >
-              Nexus
-            </span>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              gap: 1,
-              alignItems: 'center',
-            }}
-          >
-            <Button color="primary" variant="text" size="small" component={RouterLink} to="/login">
-              Sign in
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              component={RouterLink}
-              to="/signup"
-            >
-              Sign up
-            </Button>
-            <ColorModeIconDropdown />
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
-            <ColorModeIconDropdown size="medium" />
-            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Drawer
-              anchor="top"
-              open={open}
-              onClose={toggleDrawer(false)}
-              PaperProps={{
-                sx: {
-                  top: 'var(--template-frame-height, 0px)',
-                },
-              }}
-            >
-              <Box sx={{ p: 2, backgroundColor: 'background.default' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <IconButton onClick={toggleDrawer(false)}>
-                    <CloseRoundedIcon />
-                  </IconButton>
+              <Button color="primary" variant="text" size="small" component={RouterLink} to="/login">
+                Sign in
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                size="small"
+                component={RouterLink}
+                to="/signup"
+              >
+                Sign up
+              </Button>
+              <ColorModeIconDropdown />
+            </Box>
+            <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
+              <ColorModeIconDropdown size="medium" />
+              <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                anchor="top"
+                open={open}
+                onClose={toggleDrawer(false)}
+                PaperProps={{
+                  sx: {
+                    top: 'var(--template-frame-height, 0px)',
+                  },
+                }}
+              >
+                <Box sx={{ p: 2, backgroundColor: 'background.default' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <IconButton onClick={toggleDrawer(false)}>
+                      <CloseRoundedIcon />
+                    </IconButton>
+                  </Box>
+                  <MenuItem>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                      component={RouterLink}
+                      to="/sign-up"
+                    >
+                      Sign up
+                    </Button>
+                  </MenuItem>
+                  <MenuItem>
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      fullWidth
+                      component={RouterLink}
+                      to="/sign-in"
+                    >
+                      Sign in
+                    </Button>
+                  </MenuItem>
                 </Box>
-                <MenuItem>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    fullWidth
-                    component={RouterLink}
-                    to="/sign-up"
-                  >
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    fullWidth
-                    component={RouterLink}
-                    to="/sign-in"
-                  >
-                    Sign in
-                  </Button>
-                </MenuItem>
-              </Box>
-            </Drawer>
-          </Box>
-        </StyledToolbar>
-      </Container>
-    </AppBar>
+              </Drawer>
+            </Box>
+          </StyledToolbar>
+        </Container>
+      </AppBar>
+    </Box>
   );
 }

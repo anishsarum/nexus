@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import nexusLogo from '../../assets/nexus_logo.png';
 
@@ -56,7 +55,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-const SignUp: React.FC = (props) => {
+const SignUp: React.FC = () => {
   const { setToken } = useAuth();
   const navigate = useNavigate();
   // Full name removed for email-only signup
@@ -123,7 +122,7 @@ const SignUp: React.FC = (props) => {
   };
 
   return (
-    <AppTheme {...props}>
+    <>
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
@@ -196,7 +195,7 @@ const SignUp: React.FC = (props) => {
           </Typography>
         </Card>
       </SignUpContainer>
-    </AppTheme>
+    </>
   );
 };
 
