@@ -34,6 +34,16 @@ docker compose up --build
 
 This uses both `docker-compose.yml` and `docker-compose.override.yml` for development settings.
 
+#### Local Build Script (for non-override Docker Compose)
+
+If you are running Docker Compose without the override file, you should build the frontend and backend locally first:
+
+```sh
+./build-all.sh
+```
+
+This script will build both the frontend and backend before starting Docker Compose. Make sure to run it from the project root.
+
 **Dev mode details:**
 
 - Frontend runs with Vite dev server (hot reload, API proxy enabled via `vite.config.ts`)
