@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import nexusLogo from '../../assets/nexus_logo.png';
+const nexusLogo = '/nexus_logo.png';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -84,7 +84,6 @@ export default function SignIn(_props: { disableCustomTheme?: boolean }) {
     const email = formData.get('email');
     const password = formData.get('password');
     const payload = { email, password };
-    console.log('Login payload:', payload);
     try {
       const res = await fetch('/api/v1/auth/login', {
         method: 'POST',

@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import nexusLogo from '../../assets/nexus_logo.png';
+const nexusLogo = '/nexus_logo.png';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -91,7 +91,6 @@ const SignUp: React.FC = () => {
     event.preventDefault();
     if (!validateInputs()) return;
     const payload = { email, password };
-    console.log('Signup payload:', payload);
     try {
       const res = await fetch('/api/v1/auth/signup', {
         method: 'POST',

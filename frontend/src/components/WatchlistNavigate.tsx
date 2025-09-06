@@ -13,7 +13,7 @@ const WatchlistNavigate: React.FC<WatchlistNavigateProps> = ({ onSelectTicker, c
   // Wrap onSelectTicker to also navigate to dashboard
   const handleSelectTicker = (symbol: string) => {
     if (onSelectTicker) onSelectTicker(symbol);
-    navigate('/dashboard');
+  navigate('/new-dashboard');
   };
 
   // Clone children and inject handleSelectTicker as prop

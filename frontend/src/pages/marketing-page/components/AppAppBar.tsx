@@ -13,7 +13,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
-import nexusLogo from '../../../assets/nexus_logo.png';
+const nexusLogo = '/nexus_logo.png';
 import Typography from '@mui/material/Typography';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({

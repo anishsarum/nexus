@@ -5,6 +5,7 @@ import TopBar from './components/TopBar';
 import SignIn from './pages/sign-in/SignIn';
 import SignUp from './pages/sign-up/SignUp';
 import Dashboard from './pages/dashboard/Dashboard';
+import NewDashboard from './pages/new-dashboard/Dashboard';
 import Portfolio from './pages/portfolio/Portfolio';
 import SidebarLayout from './components/SidebarLayout';
 import MarketingPage from './pages/marketing-page/MarketingPage';
@@ -62,6 +63,10 @@ const AppContent: React.FC = () => {
                       onSymbolChange={setSelectedSymbol}
                     />
                   }
+                />
+                <Route
+                  path="/new-dashboard"
+                  element={<NewDashboard />}
                 />
                 <Route path="*" element={<Navigate to="/portfolio" />} />
               </Routes>

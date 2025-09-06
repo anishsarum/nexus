@@ -82,7 +82,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({
                 key={ticker.symbol}
                 onClick={() => {
                   if (onSelectTicker) onSelectTicker(ticker.symbol);
-                  navigate('/dashboard');
+                  navigate('/new-dashboard');
                 }}
               >
                 <ListItemText primary={ticker.symbol} secondary={ticker.name} />
