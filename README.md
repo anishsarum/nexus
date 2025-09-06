@@ -43,9 +43,19 @@ If you are running Docker Compose without the override file, you should build th
 ```
 
 This script will build both the frontend and backend before starting Docker Compose. Make sure to run it from the project root.
+For the Python backend, add your Finnhub API key to `backend/python/.env` (which is gitignored):
 
+```sh
+FINNHUB_API_KEY=your_finnhub_api_key_here
+```
+Each developer or deployment must set their own API key in this file.
+For the Python backend, add your Finnhub API key to `backend/python/.env` (which is gitignored):
+
+```sh
+FINNHUB_API_KEY=your_finnhub_api_key_here
+```
+Each developer or deployment must set their own API key in this file.
 **Dev mode details:**
-
 - Frontend runs with Vite dev server (hot reload, API proxy enabled via `vite.config.ts`)
 - Backend (Node/Express/TypeScript) and Python services run with local code mounted for instant updates
 - API requests from frontend are proxied to backend using Vite proxy config

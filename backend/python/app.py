@@ -6,6 +6,7 @@ from routes.tickers import router as tickers_router
 from routes.stock import router as stock_router
 from routes.strategy import router as strategy_router
 from routes.portfolio import router as portfolio_router
+from routes.semantic_analysis import router as semantic_analysis_router
 
 
 app = FastAPI()
@@ -26,3 +27,4 @@ app.include_router(tickers_router)
 app.include_router(stock_router)
 app.include_router(strategy_router)
 app.include_router(portfolio_router)
+app.include_router(semantic_analysis_router)
