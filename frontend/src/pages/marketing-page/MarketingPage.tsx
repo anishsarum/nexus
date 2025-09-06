@@ -1,4 +1,27 @@
-import * as React from 'react';
+const marketingBackgrounds = {
+  light: "url(/trading_background_light.jpg)",
+  dark: "url(/trading_background_dark.jpg)"
+};
+
+const MarketingBackground = styled(Box)((_theme) => ({
+  minHeight: '100vh',
+  width: '100%',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  transition: 'background-image 0.3s',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const CreditLabel = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontSize: 12,
+  marginTop: theme.spacing(2),
+}));
+import React from "react";
 import { useColorScheme, styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
@@ -7,29 +30,38 @@ import AppAppBar from './components/AppAppBar';
 import Hero from './components/Hero';
 import Box from '@mui/material/Box';
 
-const MarketingBackground = styled(Box)(() => ({
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  position: 'relative',
-}));
 
-const CreditLabel = styled(Typography)(() => ({
-  color: 'var(--mui-palette-text-secondary)',
-  opacity: 0.7,
-  textAlign: 'center',
-}));
 
-function MarketingPage() {
+
+const MarketingPage: React.FC = () => {
   const { mode } = useColorScheme();
-  const isLight = mode === 'light';
-  const backgroundImage = isLight
-    ? 'url(/trading_background_light.jpg)'
-    : 'url(/trading_background_dark.jpg)';
+  const [effectiveMode, setEffectiveMode] = React.useState<'light' | 'dark'>(mode === 'dark' ? 'dark' : 'light');
+
+  React.useEffect(() => {
+    // If mode is system or undefined, use system color scheme
+    if (mode !== 'light' && mode !== 'dark') {
+      const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      const getSystemMode = () => (matchMedia.matches ? 'dark' : 'light');
+      setEffectiveMode(getSystemMode());
+      const handleChange = (e: any) => {
+        setEffectiveMode(e.matches ? 'dark' : 'light');
+      };
+      matchMedia.addEventListener('change', handleChange);
+      return () => matchMedia.removeEventListener('change', handleChange);
+    } else {
+      setEffectiveMode(mode);
+    }
+  }, [mode]);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--marketing-bg',
+      marketingBackgrounds[effectiveMode]
+    );
+  }, [effectiveMode]);
+
+  const backgroundImage = marketingBackgrounds[effectiveMode];
+
   return (
     <>
       <CssBaseline enableColorScheme />
@@ -39,7 +71,7 @@ function MarketingPage() {
           <Hero />
           <Box sx={{ width: '100%', textAlign: 'center', mt: 4, mb: 2 }}>
             <CreditLabel variant="caption">
-              {isLight ? (
+              {effectiveMode === 'light' ? (
                 <>
                   Photo by{' '}
                   <Link
@@ -84,6 +116,6 @@ function MarketingPage() {
       </MarketingBackground>
     </>
   );
-}
+};
 
 export default MarketingPage;
