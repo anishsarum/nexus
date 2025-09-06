@@ -64,10 +64,7 @@ const AppContent: React.FC = () => {
                     />
                   }
                 />
-                <Route
-                  path="/new-dashboard"
-                  element={<NewDashboard />}
-                />
+                <Route path="/new-dashboard" element={<NewDashboard />} />
                 <Route path="*" element={<Navigate to="/portfolio" />} />
               </Routes>
             </Box>
