@@ -2,7 +2,7 @@
 [workspace]
 channels = ["conda-forge"]
 name = "trading-python-backend"
-platforms = ["osx-64", "osx-arm64", "linux-64"]
+platforms = ["osx-arm64", "linux-64"]
 version = "0.0.1"
 description = "Python backend for trading platform"
 
@@ -15,3 +15,16 @@ fastapi = ">=0.116.1,<0.117"
 uvicorn = ">=0.35.0,<0.36"
 redis-py = "*"
 ruff = ">=0.12.11,<0.13"
+httpx = ">=0.28.1,<0.29"
+python-dotenv = ">=1.1.1,<2"
+transformers = ">=4.56.1,<5"
+
+[pypi-dependencies]
+# For Linux/x86 (CUDA)
+torch = { version = ">=2.5.1", index = "https://download.pytorch.org/whl/cu124" }
+torchvision = { version = ">=0.20.1", index = "https://download.pytorch.org/whl/cu124" }
+
+[target.osx.pypi-dependencies]
+# For Mac (CPU only)
+torch = { version = ">=2.5.1", index = "https://download.pytorch.org/whl/cpu" }
+torchvision = { version = ">=0.20.1", index = "https://download.pytorch.org/whl/cpu" }

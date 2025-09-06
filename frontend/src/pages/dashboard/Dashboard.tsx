@@ -4,10 +4,13 @@ import InfoCard from './components/InfoCard';
 import HistoryChart from './components/HistoryChart';
 import TradeForm from './components/TradeForm';
 import { Box, Typography, Alert, Stack } from '@mui/material';
+import useSemanticAnalysis from './hooks/useSemanticAnalysis';
 import useStockData from './hooks/useStockData';
 import TickerSearchBar from './components/TickerSearchBar';
 import DateRangePicker from './components/DateRangePicker';
 import useTickerList from './hooks/useTickerList';
+import NewsCard from './components/NewsCard';
+import OverallSignalCard from './components/OverallSignalCard';
 
 interface DashboardProps {
   token: string;
@@ -40,6 +43,8 @@ const Dashboard: React.FC<DashboardProps> = ({
   const { tickerList, tickerLoading, tickerError } = useTickerList();
 
   const [inputValue, setInputValue] = useState(symbol || '');
+
+  const { recent_news, overall_sentiment, error: semanticError, loading: semanticLoading } = useSemanticAnalysis(symbol);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -82,6 +87,20 @@ const Dashboard: React.FC<DashboardProps> = ({
         )}
         <PriceCard price={price ? { price: price.price, date: price.date } : null} />
         <InfoCard info={info} symbol={symbol} token={token} onAdded={onWatchlistRefresh} />
+        {symbol && (
+          <NewsCard
+            news={recent_news}
+            loading={semanticLoading}
+            error={semanticError ?? null}
+          />
+        )}
+        {symbol && (
+          <OverallSignalCard
+            overallSentiment={overall_sentiment}
+            loading={semanticLoading}
+            error={semanticError ?? null}
+          />
+        )}
         {symbol && (
           <TradeForm
             symbol={symbol}
