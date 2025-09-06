@@ -1,6 +1,6 @@
 const marketingBackgrounds = {
-  light: "url(/trading_background_light.jpg)",
-  dark: "url(/trading_background_dark.jpg)"
+  light: 'url(/trading_background_light.jpg)',
+  dark: 'url(/trading_background_dark.jpg)',
 };
 
 const MarketingBackground = styled(Box)((_theme) => ({
@@ -21,7 +21,7 @@ const CreditLabel = styled(Typography)(({ theme }) => ({
   fontSize: 12,
   marginTop: theme.spacing(2),
 }));
-import React from "react";
+import React from 'react';
 import { useColorScheme, styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
@@ -30,12 +30,11 @@ import AppAppBar from './components/AppAppBar';
 import Hero from './components/Hero';
 import Box from '@mui/material/Box';
 
-
-
-
 const MarketingPage: React.FC = () => {
   const { mode } = useColorScheme();
-  const [effectiveMode, setEffectiveMode] = React.useState<'light' | 'dark'>(mode === 'dark' ? 'dark' : 'light');
+  const [effectiveMode, setEffectiveMode] = React.useState<'light' | 'dark'>(
+    mode === 'dark' ? 'dark' : 'light'
+  );
 
   React.useEffect(() => {
     // If mode is system or undefined, use system color scheme
