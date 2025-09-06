@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react';
  */
 export function useEffectiveColorScheme(): 'light' | 'dark' {
   const { mode } = useColorScheme();
-  const [effectiveMode, setEffectiveMode] = useState<'light' | 'dark'>(mode === 'dark' ? 'dark' : 'light');
+  const [effectiveMode, setEffectiveMode] = useState<'light' | 'dark'>(
+    mode === 'dark' ? 'dark' : 'light'
+  );
 
   useEffect(() => {
     if (mode !== 'light' && mode !== 'dark') {
