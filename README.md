@@ -1,5 +1,3 @@
-
-
 # Trading Platform (MERN + FastAPI)
 
 A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (TypeScript), and FastAPI (Python) for financial data, strategies, and analytics. **All services (frontend, backend, Python API, MongoDB, Redis) run in Docker for both development and production.**
@@ -14,7 +12,8 @@ Development containers mount local code for instant updates and hot-reloading; p
 - Add/remove stocks to watchlist
 - View historical price charts
 - Fully functional virtual trading (buy/sell)
-- FastAPI backend for stock data, strategies, and analytics
+- FastAPI backend for stock data, strategies, analytics, and semantic analysis of news
+  - Semantic analysis uses both [finbert-tone](https://huggingface.co/yiyanghkust/finbert-tone) for sentiment classification and news from Finnhub for the news to be classified
 - TypeScript backend (Express)
 - All API routes versioned under `/api/v1/*` (Node) and `/pyapi/api/v1/*` (Python)
 - Modular code for strategy builder, analytics, and real-time updates
@@ -117,3 +116,12 @@ Use `.env.production` and `.env.development` files in each service directory for
 
 - Please document new features or changes in this README.
 - Keep code modular for strategy builder, analytics, and real-time updates.
+
+## Semantic Analysis Details
+
+The Python backend provides semantic analysis of stock-related news:
+- News articles are fetched from Finnhub.
+- Each article is classified for sentiment using [finbert-tone](https://huggingface.co/yiyanghkust/finbert-tone) (FinBERT model).
+- The API is extensible, allowing configuration of news count and sentiment window.
+
+Document new features or changes in this README as you extend semantic analysis or related functionality.
