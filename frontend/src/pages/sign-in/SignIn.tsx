@@ -102,7 +102,7 @@ export default function SignIn(_props: { disableCustomTheme?: boolean }) {
         setApiError(result.error || 'Authentication failed');
       } else if (result.token) {
         setToken(result.token);
-        navigate('/portfolio');
+  navigate('/new-dashboard');
       }
     } catch (err) {
       setApiError('Network error');

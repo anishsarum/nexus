@@ -12,7 +12,7 @@ const TopBar: React.FC<TopBarProps> = ({ onLogout }) => (
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
         Trading Platform
       </Typography>
-      <Button component={Link} to="/portfolio" color="primary" sx={{ mr: 2 }}>
+      <Button component={Link} to="/new-dashboard" color="primary" sx={{ mr: 2 }}>
         Portfolio
       </Button>
       <Button component={Link} to="/new-dashboard" color="primary" sx={{ mr: 2 }}>

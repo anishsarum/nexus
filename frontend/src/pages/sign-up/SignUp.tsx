@@ -110,7 +110,7 @@ const SignUp: React.FC = () => {
         setEmailErrorMessage(data.error || 'Authentication failed');
       } else if (data.token) {
         setToken(data.token);
-        navigate('/portfolio');
+        navigate('/new-dashboard');
         console.log('Signup result:', data);
       }
     } catch (err) {
