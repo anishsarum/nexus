@@ -1,4 +1,3 @@
-
 import os
 import httpx
 from fastapi import APIRouter, Query
@@ -11,9 +10,10 @@ router = APIRouter()
 
 FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
+
 @router.get("/api/semantic-analysis")
 async def semantic_analysis(
-    symbol: str = Query(..., description="Stock symbol, e.g. AAPL")
+    symbol: str = Query(..., description="Stock symbol, e.g. AAPL"),
 ) -> JSONResponse:
     """
     Get Finnhub news sentiment signal strength for a given stock symbol.
@@ -28,11 +28,16 @@ async def semantic_analysis(
     async with httpx.AsyncClient() as client:
         resp = await client.get(url)
     if resp.status_code != 200:
-        return JSONResponse({"error": "Failed to fetch sentiment", "status": resp.status_code}, status_code=resp.status_code)
+        return JSONResponse(
+            {"error": "Failed to fetch sentiment", "status": resp.status_code},
+            status_code=resp.status_code,
+        )
     data = resp.json()
-    return JSONResponse({
-        "symbol": symbol,
-        "signal": data.get("signal"),
-        "sentiment": data.get("sentiment"),
-        "data": data
-    })
+    return JSONResponse(
+        {
+            "symbol": symbol,
+            "signal": data.get("signal"),
+            "sentiment": data.get("sentiment"),
+            "data": data,
+        }
+    )
