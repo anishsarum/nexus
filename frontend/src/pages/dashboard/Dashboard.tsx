@@ -44,7 +44,12 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   const [inputValue, setInputValue] = useState(symbol || '');
 
-  const { recent_news, overall_sentiment, error: semanticError, loading: semanticLoading } = useSemanticAnalysis(symbol);
+  const {
+    recent_news,
+    overall_sentiment,
+    error: semanticError,
+    loading: semanticLoading,
+  } = useSemanticAnalysis(symbol);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -88,11 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         <PriceCard price={price ? { price: price.price, date: price.date } : null} />
         <InfoCard info={info} symbol={symbol} token={token} onAdded={onWatchlistRefresh} />
         {symbol && (
-          <NewsCard
-            news={recent_news}
-            loading={semanticLoading}
-            error={semanticError ?? null}
-          />
+          <NewsCard news={recent_news} loading={semanticLoading} error={semanticError ?? null} />
         )}
         {symbol && (
           <OverallSignalCard

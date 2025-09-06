@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-
 interface NewsItem {
   headline: string;
   datetime: number;
@@ -31,20 +30,24 @@ interface SemanticAnalysisResult {
   error?: string | null;
 }
 
-
 const useSemanticAnalysis = (
   symbol: string,
   recentCount: number = 5,
   overallCount: number = 20
 ) => {
-  const [result, setResult] = useState<SemanticAnalysisResult>({ recent_news: [], overall_sentiment: null });
+  const [result, setResult] = useState<SemanticAnalysisResult>({
+    recent_news: [],
+    overall_sentiment: null,
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!symbol) return;
     setLoading(true);
     setResult({ recent_news: [], overall_sentiment: null });
-    fetch(`/pyapi/api/semantic-analysis?symbol=${encodeURIComponent(symbol)}&recent_count=${recentCount}&overall_count=${overallCount}`)
+    fetch(
+      `/pyapi/api/semantic-analysis?symbol=${encodeURIComponent(symbol)}&recent_count=${recentCount}&overall_count=${overallCount}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setResult({
