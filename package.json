@@ -1,0 +1,25 @@
+{
+  "name": "trading",
+  "version": "1.0.0",
+  "description": "A full-stack trading platform using MongoDB, Express, React (Vite), Node.js (TypeScript), and FastAPI (Python) for financial data, strategies, and analytics. **All services (frontend, backend, Python API, MongoDB, Redis) run in Docker for both development and production.** Development containers mount local code for instant updates and hot-reloading; production containers use built images only.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anishsarum/nexus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anishsarum/nexus/issues"
+  },
+  "homepage": "https://github.com/anishsarum/nexus#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
