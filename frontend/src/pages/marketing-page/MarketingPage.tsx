@@ -22,7 +22,8 @@ const CreditLabel = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 import React from 'react';
-import { useColorScheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import { useEffectiveColorScheme } from '../../hooks/useEffectiveColorScheme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -31,26 +32,7 @@ import Hero from './components/Hero';
 import Box from '@mui/material/Box';
 
 const MarketingPage: React.FC = () => {
-  const { mode } = useColorScheme();
-  const [effectiveMode, setEffectiveMode] = React.useState<'light' | 'dark'>(
-    mode === 'dark' ? 'dark' : 'light'
-  );
-
-  React.useEffect(() => {
-    // If mode is system or undefined, use system color scheme
-    if (mode !== 'light' && mode !== 'dark') {
-      const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-      const getSystemMode = () => (matchMedia.matches ? 'dark' : 'light');
-      setEffectiveMode(getSystemMode());
-      const handleChange = (e: any) => {
-        setEffectiveMode(e.matches ? 'dark' : 'light');
-      };
-      matchMedia.addEventListener('change', handleChange);
-      return () => matchMedia.removeEventListener('change', handleChange);
-    } else {
-      setEffectiveMode(mode);
-    }
-  }, [mode]);
+  const effectiveMode = useEffectiveColorScheme();
 
   React.useEffect(() => {
     document.documentElement.style.setProperty(
