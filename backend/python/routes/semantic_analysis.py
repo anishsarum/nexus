@@ -21,6 +21,8 @@ async def semantic_analysis(
     overall_count: int = Query(
         20, ge=1, description="Number of news items to use for overall sentiment"
     ),
+    start_date: str = Query(None, description="Start date in YYYY-MM-DD format"),
+    end_date: str = Query(None, description="End date in YYYY-MM-DD format"),
 ) -> JSONResponse:
     """
     Get news for a stock symbol from Finnhub, then run FinBERT sentiment analysis on each headline.
@@ -34,7 +36,14 @@ async def semantic_analysis(
             {"error": "Finnhub API key not set", "FINNHUB_API_KEY": FINNHUB_API_KEY},
             status_code=500,
         )
-    url = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from=2025-09-01&to=2025-09-06&token={FINNHUB_API_KEY}"
+
+    today = datetime.now(timezone.utc).date()
+    if not end_date:
+        end_date = today.strftime("%Y-%m-%d")
+    if not start_date:
+        start_date = (today - timedelta(days=7)).strftime("%Y-%m-%d")
+
+    url = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from={start_date}&to={end_date}&token={FINNHUB_API_KEY}"
     async with httpx.AsyncClient() as client:
         resp = await client.get(url)
         if resp.status_code != 200:
