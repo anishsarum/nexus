@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton, Tooltip, Snackbar } from '@mui/material';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
 export interface AddToWatchlistButtonProps {
@@ -18,8 +19,21 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [subscribed, setSubscribed] = useState<boolean>(false);
+  const [lastAction, setLastAction] = useState<'add' | 'remove'>('add');
 
-  const handleAdd = async () => {
+  React.useEffect(() => {
+    if (!token || !symbol) return;
+    axios
+      .get(`/api/v1/watchlist`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setSubscribed(res.data.some((item: any) => item.symbol === symbol));
+      });
+  }, [token, symbol]);
+
+  const handleToggle = async () => {
     setLoading(true);
     try {
       await axios.post(
@@ -29,6 +43,12 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      setLastAction(subscribed ? 'remove' : 'add');
+      // Re-fetch watchlist to get updated state
+      const res = await axios.get(`/api/v1/watchlist`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSubscribed(res.data.some((item: any) => item.symbol === symbol));
       setSnackbarOpen(true);
       if (onAdded) onAdded(symbol);
     } catch {
@@ -39,10 +59,10 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
 
   return (
     <>
-      <Tooltip title="Add to Watchlist">
+      <Tooltip title={subscribed ? 'Unsubscribe from Watchlist' : 'Add to Watchlist'}>
         <span>
-          <IconButton onClick={handleAdd} disabled={loading || !token} color="primary">
-            <BookmarkAddIcon />
+          <IconButton onClick={handleToggle} disabled={loading || !token}>
+            {subscribed ? <DeleteIcon /> : <BookmarkAddIcon />}
           </IconButton>
         </span>
       </Tooltip>
@@ -50,7 +70,7 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={() => setSnackbarOpen(false)}
-        message="Added to Watchlist"
+        message={lastAction === 'add' ? 'Added to Watchlist' : 'Removed from Watchlist'}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
     </>
