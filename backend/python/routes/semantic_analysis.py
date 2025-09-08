@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from strategy.finbert import FinBERTSentimentAnalyzer
+from datetime import datetime, timedelta, timezone
 
 load_dotenv()
 
@@ -11,16 +12,13 @@ router = APIRouter()
 
 FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
-
 @router.get("/api/semantic-analysis")
 async def semantic_analysis(
     symbol: str = Query(..., description="Stock symbol, e.g. AAPL"),
-    recent_count: int = Query(
-        5, ge=1, description="Number of news items to show in recent_news"
-    ),
-    overall_count: int = Query(
-        20, ge=1, description="Number of news items to use for overall sentiment"
-    ),
+    recent_count: int = Query(5, ge=1, description="Number of news items to show in recent_news"),
+    overall_count: int = Query(20, ge=1, description="Number of news items to use for overall sentiment"),
+    start_date: str = Query(None, description="Start date in YYYY-MM-DD format"),
+    end_date: str = Query(None, description="End date in YYYY-MM-DD format"),
 ) -> JSONResponse:
     """
     Get news for a stock symbol from Finnhub, then run FinBERT sentiment analysis on each headline.
@@ -30,11 +28,15 @@ async def semantic_analysis(
         JSONResponse: List of news headlines and their FinBERT sentiment
     """
     if not FINNHUB_API_KEY:
-        return JSONResponse(
-            {"error": "Finnhub API key not set", "FINNHUB_API_KEY": FINNHUB_API_KEY},
-            status_code=500,
-        )
-    url = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from=2025-09-01&to=2025-09-06&token={FINNHUB_API_KEY}"
+        return JSONResponse({"error": "Finnhub API key not set", "FINNHUB_API_KEY": FINNHUB_API_KEY}, status_code=500)
+
+    today = datetime.now(timezone.utc).date()
+    if not end_date:
+        end_date = today.strftime('%Y-%m-%d')
+    if not start_date:
+        start_date = (today - timedelta(days=7)).strftime('%Y-%m-%d')
+
+    url = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from={start_date}&to={end_date}&token={FINNHUB_API_KEY}"
     async with httpx.AsyncClient() as client:
         resp = await client.get(url)
         if resp.status_code != 200:
