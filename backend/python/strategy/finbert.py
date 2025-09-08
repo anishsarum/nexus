@@ -5,7 +5,10 @@ import numpy as np
 
 
 class FinBERTSentimentAnalyzer:
-    def __init__(self, model_name="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"):
+    def __init__(
+        self,
+        model_name="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis",
+    ):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForSequenceClassification.from_pretrained(model_name)
         self.labels = ["negative", "neutral", "positive"]
@@ -19,9 +22,7 @@ class FinBERTSentimentAnalyzer:
                 probs = np.exp(logits) / np.sum(np.exp(logits))
                 sentiment_idx = int(np.argmax(probs))
                 sentiment = self.labels[sentiment_idx]
-                scores = {
-                    label: float(prob) for label, prob in zip(self.labels, probs)
-                }
+                scores = {label: float(prob) for label, prob in zip(self.labels, probs)}
                 return {"sentiment": sentiment, "scores": scores}
         except Exception as e:
             logging.error(f"FinBERT analysis error: {e}")
