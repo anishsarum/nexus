@@ -7,27 +7,36 @@ const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 router.post('/signup', async (req: Request, res: Response) => {
+  const safeBody = { ...req.body };
+  if (safeBody.password) safeBody.password = '[REDACTED]';
+  console.log('Signup request body:', safeBody);
   const { email, password } = req.body;
   if (!email || !password) {
+    console.warn('Signup error: Missing email or password');
     return res.status(400).json({ error: 'Email and password are required.' });
   }
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.warn('Signup error: Email already exists:', email);
       return res.status(400).json({ error: 'Email already exists.' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ email, password: hashedPassword });
     await user.save();
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    console.log('Signup success for:', email);
     res.status(201).json({ message: 'User created successfully.', token });
-  } catch {
+  } catch (err) {
+    console.error('Signup error:', err);
     res.status(500).json({ error: 'Server error.' });
   }
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  console.log('Login request body:', req.body);
+  const safeBody = { ...req.body };
+  if (safeBody.password) safeBody.password = '[REDACTED]';
+  console.log('Login request body:', safeBody);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
