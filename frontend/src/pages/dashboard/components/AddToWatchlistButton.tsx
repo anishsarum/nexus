@@ -59,12 +59,9 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
 
   return (
     <>
-      <Tooltip title={subscribed ? "Unsubscribe from Watchlist" : "Add to Watchlist"}>
+      <Tooltip title={subscribed ? 'Unsubscribe from Watchlist' : 'Add to Watchlist'}>
         <span>
-          <IconButton
-            onClick={handleToggle}
-            disabled={loading || !token}
-          >
+          <IconButton onClick={handleToggle} disabled={loading || !token}>
             {subscribed ? <DeleteIcon /> : <BookmarkAddIcon />}
           </IconButton>
         </span>
@@ -73,7 +70,7 @@ const AddToWatchlistButton: React.FC<AddToWatchlistButtonProps> = ({
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={() => setSnackbarOpen(false)}
-        message={lastAction === 'add' ? "Added to Watchlist" : "Removed from Watchlist"}
+        message={lastAction === 'add' ? 'Added to Watchlist' : 'Removed from Watchlist'}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
     </>
