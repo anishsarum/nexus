@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from strategy.finbert import FinBERTSentimentAnalyzer
+from datetime import datetime, timezone, timedelta
 
 load_dotenv()
 
