@@ -68,38 +68,41 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({
       <Typography variant="h6" gutterBottom>
         Watchlist
       </Typography>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <List>
-          {tickers.length === 0 ? (
-            <ListItemButton disabled>
-              <ListItemText primary="No tickers subscribed." />
-            </ListItemButton>
-          ) : (
-            tickers.map((ticker) => (
-              <ListItemButton
-                key={ticker.symbol}
-                onClick={() => {
-                  if (onSelectTicker) onSelectTicker(ticker.symbol);
-                  navigate('/dashboard');
-                }}
-              >
-                <ListItemText primary={ticker.symbol} secondary={ticker.name} />
-                <IconButton
-                  edge="end"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(ticker.symbol);
+      {/* Add extra top padding before the list */}
+      <Box sx={{ pt: 3 }}>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <List>
+            {tickers.length === 0 ? (
+              <ListItemButton disabled>
+                <ListItemText primary="No tickers subscribed." />
+              </ListItemButton>
+            ) : (
+              tickers.map((ticker) => (
+                <ListItemButton
+                  key={ticker.symbol}
+                  onClick={() => {
+                    if (onSelectTicker) onSelectTicker(ticker.symbol);
+                    navigate('/dashboard');
                   }}
                 >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemButton>
-            ))
-          )}
-        </List>
-      )}
+                  <ListItemText primary={ticker.symbol} secondary={ticker.name} />
+                  <IconButton
+                    edge="end"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(ticker.symbol);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemButton>
+              ))
+            )}
+          </List>
+        )}
+      </Box>
     </Box>
   );
 };

@@ -13,7 +13,12 @@ router.post('/', auth, async (req: Request, res: Response) => {
       // @ts-ignore
       watchlist = new Watchlist({ user: req.user.id, assets: [] });
     }
-    watchlist.assets.push({ symbol, name });
+    const exists = watchlist.assets.some((a: any) => a.symbol === symbol);
+    if (exists) {
+      watchlist.assets = watchlist.assets.filter((a: any) => a.symbol !== symbol);
+    } else {
+      watchlist.assets.push({ symbol, name });
+    }
     await watchlist.save();
     res.json(watchlist);
   } catch (err: any) {
