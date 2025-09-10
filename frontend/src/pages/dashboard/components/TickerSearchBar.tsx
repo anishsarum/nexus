@@ -38,16 +38,14 @@ const TickerSearchBar: React.FC<TickerSearchBarProps> = ({
           }
         }}
         renderInput={(params) => {
+          const { InputLabelProps, ...rest } = params;
           return (
             <TextField
-              {...params}
+              {...rest}
               label="Stock Symbol"
               placeholder="e.g. AAPL"
               size="small"
-              sx={{ flex: 2, pt: 1 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
           );
         }}

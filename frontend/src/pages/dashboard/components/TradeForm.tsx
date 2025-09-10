@@ -47,8 +47,16 @@ const TradeForm: React.FC<TradeFormProps> = ({ symbol, token, onTrade, price }) 
           <TextField
             label="Quantity"
             type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
+            value={String(quantity)}
+            onChange={(e) => {
+              let val = e.target.value;
+              console.debug('Quantity input changed:', { val, prev: quantity });
+              if (/^\d*$/.test(val)) {
+                if (val.length > 1) val = val.replace(/^0+/, '');
+                setQuantity(val === '' ? 0 : Number(val));
+              }
+            }}
+            onWheel={(e) => e.target instanceof HTMLElement && e.target.blur()} // Prevent scroll increment
             fullWidth
           />
           <Typography variant="subtitle1" sx={{ mt: 1 }}>
