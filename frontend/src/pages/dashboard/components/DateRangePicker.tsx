@@ -22,6 +22,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
         size="small"
+        sx={{ pt: 1 }}
         InputLabelProps={{ shrink: true }}
       />
       <TextField
@@ -30,6 +31,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
         size="small"
+        sx={{ pt: 1 }}
         InputLabelProps={{ shrink: true }}
       />
     </>

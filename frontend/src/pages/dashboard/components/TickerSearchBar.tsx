@@ -44,7 +44,7 @@ const TickerSearchBar: React.FC<TickerSearchBarProps> = ({
               label="Stock Symbol"
               placeholder="e.g. AAPL"
               size="small"
-              sx={{ flex: 2 }}
+              sx={{ flex: 2, pt: 1 }}
               InputLabelProps={{
                 shrink: true,
               }}
