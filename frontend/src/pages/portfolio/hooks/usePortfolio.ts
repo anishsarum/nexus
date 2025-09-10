@@ -62,12 +62,26 @@ export function usePortfolio() {
     setSellSuccess('');
     setSellLoading(true);
     try {
+      const pythonApiUrl = (window as any).REACT_APP_PYTHON_API_URL || '/pyapi';
+      const valueRes = await axios.get(`${pythonApiUrl}/api/portfolio/value`, {
+        params: {
+          symbols: holding.symbol,
+          quantities: String(holding.quantity),
+          avgPrices: String(holding.avgPrice),
+        },
+      });
+      const latestPrice = valueRes.data?.assets?.[0]?.price;
+      if (typeof latestPrice !== 'number' || isNaN(latestPrice) || latestPrice <= 0) {
+        setSellError('Could not fetch the latest price. Please try again later.');
+        setSellLoading(false);
+        return;
+      }
       await axios.post(
         `/api/v1/portfolio/sell`,
         {
           symbol: holding.symbol,
           quantity: holding.quantity,
-          price: holding.avgPrice,
+          price: latestPrice,
         },
         {
           headers: { Authorization: token ? `Bearer ${token}` : '' },
